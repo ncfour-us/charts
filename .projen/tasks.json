@@ -318,7 +318,7 @@
           "exec": "cp dist/js/ncfour-us-charts-$(cat dist/version.txt).tgz ~/.tjh-packages/."
         }
       ],
-      "condition": "sh -c \"test -f \\\"dist/version.txt\\\" && test \\\"$(git branch --show-current)\\\" = \\\"main\\\""
+      "condition": "sh -c \"test -f \\\"dist/version.txt\\\" && test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
     },
     "release": {
       "name": "release",
