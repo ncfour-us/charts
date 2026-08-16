@@ -3,7 +3,6 @@
 !/.projen/tasks.json
 !/.projen/deps.json
 !/.projen/files.json
-!/pnpm-workspace.yaml
 !/package.json
 !/LICENSE
 !/.npmignore
@@ -44,4 +43,7 @@ junit.xml
 /lib
 /dist/
 !/projenrc/tsconfig.json
+!/.pre-commit-config.yaml
+!/pnpm-workspace.yaml
+examples/lib/
 !/.projenrc.ts

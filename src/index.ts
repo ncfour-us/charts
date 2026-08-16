@@ -1,5 +1,3 @@
-export class Hello {
-  public sayHello() {
-    return 'hello, world!';
-  }
-}
+import { Chart, ChartParms, ChartYData, XYLineChart } from './charts.js';
+
+export { Chart, ChartParms, ChartYData, XYLineChart };

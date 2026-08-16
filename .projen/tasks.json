@@ -215,6 +215,19 @@
         }
       ]
     },
+    "examples": {
+      "name": "examples",
+      "description": "compile examples",
+      "steps": [
+        {
+          "execArgs": [
+            "tsc",
+            "--project",
+            "examples/tsconfig.json"
+          ]
+        }
+      ]
+    },
     "git:checkout": {
       "name": "git:checkout",
       "requiredEnv": [
@@ -302,7 +315,7 @@
       "steps": [
         {
           "name": "copy package to ~/.local-build-packages folder (dryrun: false)",
-          "exec": "cp dist/js/charts-$(cat dist/version.txt).tgz ~/.local-build-packages/."
+          "exec": "cp dist/js/ncfour-us-charts-$(cat dist/version.txt).tgz ~/.local-build-packages/."
         }
       ],
       "condition": "test -f \"dist/version.txt\" && test \"$(git branch --show-current)\" = \"main\""
@@ -435,7 +448,7 @@
             "--peer",
             "--no-deprecated",
             "--dep=dev,prod,peer,optional",
-            "--filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript"
+            "--filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript,@ncfour-us/logging,canvas,chart.js,sharp,skia-canvas"
           ]
         },
         {
@@ -448,6 +461,7 @@
             "@eslint/compat",
             "@eslint/eslintrc",
             "@eslint/js",
+            "@jest/globals",
             "@ncfour-us/projen-utils",
             "@stylistic/eslint-plugin",
             "@types/jest",
@@ -468,7 +482,12 @@
             "ts-jest",
             "ts-node",
             "tsx",
-            "typescript"
+            "typescript",
+            "@ncfour-us/logging",
+            "canvas",
+            "chart.js",
+            "sharp",
+            "skia-canvas"
           ]
         },
         {

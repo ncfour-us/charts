@@ -5,10 +5,12 @@
     ".gitignore",
     ".mergify.yml",
     ".npmignore",
+    ".pre-commit-config.yaml",
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",
     "LICENSE",
+    "pnpm-workspace.yaml",
     "projenrc/tsconfig.json",
     "test/tsconfig.json",
     "tsconfig.json"
