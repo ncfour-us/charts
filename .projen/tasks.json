@@ -314,8 +314,8 @@
       "name": "publish:local",
       "steps": [
         {
-          "name": "copy package to ~/.local-build-packages folder (dryrun: false)",
-          "exec": "cp dist/js/ncfour-us-charts-$(cat dist/version.txt).tgz ~/.local-build-packages/."
+          "name": "copy package to ~/.tjh-packages folder (dryrun: false)",
+          "exec": "cp dist/js/ncfour-us-charts-$(cat dist/version.txt).tgz ~/.tjh-packages/."
         }
       ],
       "condition": "test -f \"dist/version.txt\" && test \"$(git branch --show-current)\" = \"main\""

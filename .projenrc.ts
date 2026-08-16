@@ -1,4 +1,8 @@
-import { TypeScriptESMProject, PnpmWorkspace } from '@ncfour-us/projen-utils';
+import {
+  TypeScriptESMProject,
+  PnpmWorkspace,
+  RepoBuildPackageModel,
+} from '@ncfour-us/projen-utils';
 import { javascript, JsonPatch } from 'projen';
 const project = new TypeScriptESMProject({
   buildTagTask: true,
@@ -16,6 +20,9 @@ const project = new TypeScriptESMProject({
   // packageName: undefined,                                                 /* The "name" in package.json. */
   // repoBuildPackageModel: RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY,  /* Type of repository, packaging, and release model to use. */
   precommitConfig: true,
+
+  repoBuildPackageModel: RepoBuildPackageModel.LOCAL_BUILD_PACKAGE,
+  localPackageArchiveDir: '~/.tjh-packages',
 });
 
 const tsconfig = project.tryFindObjectFile('test/tsconfig.json');
