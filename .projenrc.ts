@@ -6,11 +6,7 @@ import {
 import { javascript, JsonPatch } from 'projen';
 const project = new TypeScriptESMProject({
   buildTagTask: true,
-  devDeps: [
-    '@ncfour-us/projen-utils@file:/home/tjh/Projects/repos/ncfour-us/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz',
-    'typescript@^6',
-    '@jest/globals',
-  ],
+  devDeps: ['@ncfour-us/projen-utils', 'typescript@^6', '@jest/globals'],
   eslintFlatConfig: true,
   name: '@ncfour-us/charts',
   packageManager: javascript.NodePackageManager.PNPM,
