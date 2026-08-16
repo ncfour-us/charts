@@ -23,6 +23,7 @@ const project = new TypeScriptESMProject({
 
   repoBuildPackageModel: RepoBuildPackageModel.LOCAL_BUILD_PACKAGE,
   localPackageArchiveDir: '~/.tjh-packages',
+  releaseToLocal: true,
 });
 
 const tsconfig = project.tryFindObjectFile('test/tsconfig.json');
