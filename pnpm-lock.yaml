@@ -812,7 +812,7 @@ packages:
     engines: {node: '>= 24.0.0'}
 
   '@ncfour-us/projen-utils@file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz':
-    resolution: {integrity: sha512-ataJOX0LuRZxDMXJ4lIYkViQt1DQnOGWtRvmqkpw6EpLZ68LGq/AOFgLBh2gzkFGgLr9z3MW3tJNmDhedkmqHA==, tarball: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz}
+    resolution: {integrity: sha512-XmJx1+8tavRyIfiDKwtk41nFVpu2EBF4SEu3ZuPzFwNH3fkW7vQCota6QfBuOEOA5zaRAU14lyeRH19lGZDEhg==, tarball: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz}
     version: 0.0.0
     peerDependencies:
       constructs: ^10.6.0
