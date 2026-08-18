@@ -26,7 +26,7 @@ prettier.config.ts
 .pre-commit-config.yaml
 CHANGELOG.md
 pnpm-workspace.yaml
-exmaples/lib/
+examples/lib/
 /.gitattributes
 /.projenrc.ts
 /projenrc

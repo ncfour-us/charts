@@ -89,7 +89,7 @@
         "ts-jest",
         {
           "useESM": true,
-          "tsconfig": "tsconfig.dev.json"
+          "tsconfig": "test/tsconfig.json"
         }
       ]
     },

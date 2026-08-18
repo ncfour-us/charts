@@ -1,4 +1,4 @@
-import { XYLineChart } from '../src/charts.js';
+import { XYLineChart } from '../src/index.js';
 
 const myChart = new XYLineChart({
   title: 'My Chart Title',

@@ -2,15 +2,18 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    // "noEmit": true,
     "rootDir": "..",
+    "rootDirs": [
+      "../examples",
+      "../src"
+    ],
     "outDir": "lib",
     "isolatedModules": true
   },
   "include": [
-    "*.ts"
+    "**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "lib"
   ]
 }

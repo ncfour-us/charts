@@ -9,6 +9,7 @@
     ".projen/deps.json",
     ".projen/files.json",
     ".projen/tasks.json",
+    "examples/tsconfig.json",
     "LICENSE",
     "pnpm-workspace.yaml",
     "projenrc/tsconfig.json",

@@ -186,7 +186,7 @@
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "tsx --tsconfig test/tsconfig.json .projenrc.ts"
+          "exec": "tsx --tsconfig projenrc/tsconfig.json .projenrc.ts"
         }
       ]
     },
@@ -293,7 +293,7 @@
     },
     "publish:git": {
       "name": "publish:git",
-      "description": "Prepends the release changelog onto the project changelog, creates a release commit, and tags the release",
+      "description": "PATCH PATCH PATCH: Prepends the release changelog onto the project changelog, creates a release commit, and tags the release",
       "env": {
         "CHANGELOG": "dist/changelog.md",
         "RELEASE_TAG_FILE": "dist/releasetag.txt",
@@ -308,7 +308,7 @@
           "builtin": "release/tag-version"
         }
       ],
-      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && test \"$(git branch --show-current)\" = \"main\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\""
     },
     "publish:local": {
       "name": "publish:local",
@@ -322,7 +322,7 @@
     },
     "release": {
       "name": "release",
-      "description": "Prepare a release from \"main\" branch",
+      "description": "TEMP REPLACE: Prepare a release from \"main\" branch",
       "env": {
         "RELEASE": "true"
       },

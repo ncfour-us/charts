@@ -45,5 +45,6 @@ junit.xml
 !/projenrc/tsconfig.json
 !/.pre-commit-config.yaml
 !/pnpm-workspace.yaml
+!/examples/tsconfig.json
 examples/lib/
 !/.projenrc.ts

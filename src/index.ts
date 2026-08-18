@@ -1,3 +1,5 @@
 import { Chart, ChartParms, ChartYData, XYLineChart } from './charts.js';
 
-export { Chart, ChartParms, ChartYData, XYLineChart };
+export type { ChartParms, ChartYData };
+
+export { Chart, XYLineChart };
