@@ -3,11 +3,12 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
-    "rootDir": "..",
-    "isolatedModules": true
+    "rootDir": ".."
   },
   "include": [
-    "**/*.ts"
+    "**/*.ts",
+    "eslint.config.ts",
+    "prettier.config.ts"
   ],
   "exclude": [
     "node_modules"

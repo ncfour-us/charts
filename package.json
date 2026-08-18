@@ -78,21 +78,6 @@
   "packageManager": "pnpm@10.33.0",
   "jest": {
     "coverageProvider": "v8",
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    },
-    "transform": {
-      "^.+\\.(mt|t|cj|j)s$": [
-        "ts-jest",
-        {
-          "useESM": true,
-          "tsconfig": "test/tsconfig.json"
-        }
-      ]
-    },
     "testMatch": [
       "<rootDir>/@(src|test)/**/*(*.)@(spec|test).ts?(x)",
       "<rootDir>/@(src|test)/**/__tests__/**/*.ts?(x)",
@@ -126,7 +111,16 @@
           "outputDirectory": "test-reports"
         }
       ]
-    ]
+    ],
+    "transform": {
+      "^.+\\.(mt|t|cj|j)s$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": "test/tsconfig.json"
+        }
+      ]
+    }
   },
   "types": "lib/index.d.ts",
   "type": "module",
