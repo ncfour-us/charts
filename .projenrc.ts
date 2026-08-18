@@ -132,7 +132,7 @@ project.addTask('publish:git', {
     },
   ],
   condition:
-    'git log --oneline -1 | grep -v "chore(release):" > /dev/null && sh -c "test \\"$(git branch --show-current)\\" = \\"main\\"',
+    'git log --oneline -1 | grep -v "chore(release):" > /dev/null && sh -c "test \\"$(git branch --show-current)\\" = \\"main\\""',
 });
 
 // add the "release" task back in ...

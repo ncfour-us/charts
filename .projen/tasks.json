@@ -308,7 +308,7 @@
           "builtin": "release/tag-version"
         }
       ],
-      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
     },
     "publish:local": {
       "name": "publish:local",
