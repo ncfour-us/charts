@@ -34,30 +34,30 @@ const project = new TypeScriptESMProject({
 //   project.defaultTask?.reset(`tsx --tsconfig ${tsconfigProjen.path} .projenrc.ts`);
 // }
 
-// const tsconfigTest = project.tryFindObjectFile('test/tsconfig.json');
+const tsconfigTest = project.tryFindObjectFile('test/tsconfig.json');
 // const tsconfigDev = project.tryFindObjectFile('tsconfig.dev.json');
 // if (!tsconfigDev) {
 //   console.log('tsconfig.dev.json NOT FOUND!');
 // }
 
-// if (tsconfigTest) {
-//   tsconfigTest.patch(JsonPatch.add('/compilerOptions/isolatedModules', true));
+if (tsconfigTest) {
+  tsconfigTest.patch(JsonPatch.add('/compilerOptions/isolatedModules', true));
 
-//   const packageJson = project.tryFindObjectFile('package.json');
-//   if (packageJson) {
-//     packageJson.patch(
-//       JsonPatch.replace('/jest/transform', {
-//         '^.+\\.(mt|t|cj|j)s$': [
-//           'ts-jest',
-//           {
-//             useESM: true,
-//             tsconfig: 'test/tsconfig.json',
-//           },
-//         ],
-//       }),
-//     );
-//   }
-// }
+  // const packageJson = project.tryFindObjectFile('package.json');
+  // if (packageJson) {
+  //   packageJson.patch(
+  //     JsonPatch.replace('/jest/transform', {
+  //       '^.+\\.(mt|t|cj|j)s$': [
+  //         'ts-jest',
+  //         {
+  //           useESM: true,
+  //           tsconfig: 'test/tsconfig.json',
+  //         },
+  //       ],
+  //     }),
+  //   );
+  // }
+}
 
 project.tryRemoveFile('pnpm-workspace.yaml');
 

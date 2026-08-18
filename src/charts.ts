@@ -113,15 +113,15 @@ export class XYLineChart extends Chart {
   }
 
   private setChartProperties(xValues: number[], yValues: ChartYData | ChartYData[]): any {
-    let numYLines = 1;
+    let isArray: boolean = false;
 
     if (Array.isArray(yValues)) {
-      numYLines = yValues.length;
+      isArray = true;
     }
 
     let datasets;
 
-    if (numYLines === 1) {
+    if (!isArray) {
       const dataPoints = (yValues as ChartYData).values.map((val, index) => {
         return {
           x: xValues[index],
