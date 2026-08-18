@@ -32,7 +32,7 @@
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.4.1",
-    "@ncfour-us/projen-utils": "file:/home/tjh/Projects/repos/ncfour-us/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz",
+    "@ncfour-us/projen-utils": "^0.2.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24",

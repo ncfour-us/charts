@@ -448,7 +448,7 @@
             "--peer",
             "--no-deprecated",
             "--dep=dev,prod,peer,optional",
-            "--filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript,@ncfour-us/logging,canvas,chart.js,sharp,skia-canvas"
+            "--filter=@eslint/compat,@eslint/eslintrc,@eslint/js,@jest/globals,@ncfour-us/projen-utils,@stylistic/eslint-plugin,@types/jest,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint,eslint-import-resolver-typescript,eslint-plugin-import,globals,jest,jiti,prettier,projen,ts-jest,ts-node,tsx,typescript,@ncfour-us/logging,canvas,chart.js,sharp,skia-canvas"
           ]
         },
         {

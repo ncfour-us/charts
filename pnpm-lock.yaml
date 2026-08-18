@@ -37,8 +37,8 @@ importers:
         specifier: ^30.4.1
         version: 30.4.1
       '@ncfour-us/projen-utils':
-        specifier: file:/home/tjh/Projects/repos/ncfour-us/projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz
-        version: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz(constructs@10.8.1)(projen@0.101.31(constructs@10.8.1))
+        specifier: ^0.2.1
+        version: 0.2.1(constructs@10.8.1)(projen@0.101.31(constructs@10.8.1))
       '@stylistic/eslint-plugin':
         specifier: ^5.10.0
         version: 5.10.0(eslint@10.8.1(jiti@2.7.0))
@@ -811,12 +811,11 @@ packages:
     resolution: {integrity: sha512-2LejO9d4wpItdExcg5sJJ7AbhvKwd0AFlvByegqJ+5/4lqjXTS+sNlOsuXEtLEP09y5xLs9G5OiPJm+UulC1cA==}
     engines: {node: '>= 24.0.0'}
 
-  '@ncfour-us/projen-utils@file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz':
-    resolution: {integrity: sha512-rnDLx3cQWu5ValnAu8C2hhCRPSi2Jkp49DseUC9G4/rTXso5949lHJ2oZZgBddaHN+omf5FIXg1sUupeaT7sOw==, tarball: file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz}
-    version: 0.0.0
+  '@ncfour-us/projen-utils@0.2.1':
+    resolution: {integrity: sha512-3NVRevjo8hq/N5tYXlgKM3Aq0UoEX1oKTufxTuZHPmGJjtdfNCiu2Ab5tFHSs/c6GWphH1HhLrta5xcfvrwxGQ==}
     peerDependencies:
       constructs: ^10.6.0
-      projen: ^0.101.32
+      projen: ^0.99.70
 
   '@nodable/entities@3.0.0':
     resolution: {integrity: sha512-8L9xFeTYKhm49xfIypoe2W5wV1m/3Z58kT+7kR9A8OyFxcPduI4VmxaUMQyKYrRjUoLLSXv6EKKID5Tvj9cUVw==}
@@ -4182,7 +4181,7 @@ snapshots:
       chalk: 4.1.2
       winston: 3.19.0
 
-  '@ncfour-us/projen-utils@file:../projen-utils/dist/js/projen-utils@0.0.0.jsii.tgz(constructs@10.8.1)(projen@0.101.31(constructs@10.8.1))':
+  '@ncfour-us/projen-utils@0.2.1(constructs@10.8.1)(projen@0.101.31(constructs@10.8.1))':
     dependencies:
       constructs: 10.8.1
       projen: 0.101.31(constructs@10.8.1)
