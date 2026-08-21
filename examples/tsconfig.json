@@ -3,10 +3,6 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "rootDir": "..",
-    "rootDirs": [
-      "../examples",
-      "../src"
-    ],
     "outDir": "lib",
     "isolatedModules": true
   },
