@@ -181,12 +181,25 @@
         }
       ]
     },
+    "compile:examples": {
+      "name": "compile:examples",
+      "description": "compile examples",
+      "steps": [
+        {
+          "execArgs": [
+            "tsc",
+            "--project",
+            "examples/tsconfig.json"
+          ]
+        }
+      ]
+    },
     "default": {
       "name": "default",
       "description": "Synthesize project files",
       "steps": [
         {
-          "exec": "tsx --tsconfig test/tsconfig.json .projenrc.ts"
+          "exec": "tsx --tsconfig projenrc/tsconfig.json .projenrc.ts"
         }
       ]
     },
@@ -212,19 +225,6 @@
         {
           "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts eslint.config.ts",
           "receiveArgs": true
-        }
-      ]
-    },
-    "examples": {
-      "name": "examples",
-      "description": "compile examples",
-      "steps": [
-        {
-          "execArgs": [
-            "tsc",
-            "--project",
-            "examples/tsconfig.json"
-          ]
         }
       ]
     },
@@ -308,7 +308,7 @@
           "builtin": "release/tag-version"
         }
       ],
-      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && test \"$(git branch --show-current)\" = \"main\""
+      "condition": "git log --oneline -1 | grep -v \"chore(release):\" > /dev/null && sh -c \"test \\\"$(git branch --show-current)\\\" = \\\"main\\\"\""
     },
     "publish:local": {
       "name": "publish:local",

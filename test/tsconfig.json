@@ -7,7 +7,8 @@
     "isolatedModules": true
   },
   "include": [
-    "**/*.ts"
+    "../**/*.ts",
+    "../.projenrc.ts"
   ],
   "exclude": [
     "node_modules"

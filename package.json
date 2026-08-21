@@ -9,10 +9,10 @@
     "bump:releasable-commits": "projen bump:releasable-commits",
     "clobber": "projen clobber",
     "compile": "projen compile",
+    "compile:examples": "projen compile:examples",
     "default": "projen default",
     "eject": "projen eject",
     "eslint": "projen eslint",
-    "examples": "projen examples",
     "package": "projen package",
     "post-compile": "projen post-compile",
     "post-upgrade": "projen post-upgrade",
@@ -32,7 +32,7 @@
     "@eslint/eslintrc": "^3.3.6",
     "@eslint/js": "^10.0.1",
     "@jest/globals": "^30.4.1",
-    "@ncfour-us/projen-utils": "^0.2.1",
+    "@ncfour-us/projen-utils": "^0.3.1",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^24",
@@ -48,7 +48,7 @@
     "jest-junit": "^17",
     "jiti": "^2.7.0",
     "prettier": "^3.9.6",
-    "projen": "^0.101.31",
+    "projen": "^0.101.34",
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.12",
@@ -78,21 +78,6 @@
   "packageManager": "pnpm@10.33.0",
   "jest": {
     "coverageProvider": "v8",
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "moduleNameMapper": {
-      "^(\\.{1,2}/.*)\\.js$": "$1"
-    },
-    "transform": {
-      "^.+\\.(mt|t|cj|j)s$": [
-        "ts-jest",
-        {
-          "useESM": true,
-          "tsconfig": "tsconfig.dev.json"
-        }
-      ]
-    },
     "testMatch": [
       "<rootDir>/@(src|test)/**/*(*.)@(spec|test).ts?(x)",
       "<rootDir>/@(src|test)/**/__tests__/**/*.ts?(x)",
@@ -126,7 +111,22 @@
           "outputDirectory": "test-reports"
         }
       ]
-    ]
+    ],
+    "transform": {
+      "^.+\\.(mt|t|cj|j)s$": [
+        "ts-jest",
+        {
+          "useESM": true,
+          "tsconfig": "test/tsconfig.json"
+        }
+      ]
+    },
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   },
   "types": "lib/index.d.ts",
   "type": "module",
