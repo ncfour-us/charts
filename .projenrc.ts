@@ -2,13 +2,11 @@
 
 import {
   TypeScriptESMProject,
-  PnpmWorkspace,
   RepoBuildPackageModel,
   sampleReadmeProps,
   ExamplesFolder,
 } from '@ncfour-us/projen-utils';
-import { javascript, JsonFile, JsonPatch } from 'projen';
-import { TypescriptConfig, TypescriptConfigExtends } from 'projen/lib/javascript';
+import { javascript } from 'projen';
 
 const project = new TypeScriptESMProject({
   authorName: 'Tim Hahn',
