@@ -1,4 +1,11 @@
 
+## [0.0.3](///compare/v0.0.2...v0.0.3) (2026-08-27)
+
+
+### Features
+
+* add unit tests, re-factor into separate files bf5e928
+
 ## [0.0.2](///compare/v0.0.1...v0.0.2) (2026-08-27)
 
 
