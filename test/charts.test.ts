@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Tim Hahn
+
 import { test, expect, describe } from '@jest/globals';
 
 import { Chart, ChartYData, XYLineChart } from '../src/index.js';

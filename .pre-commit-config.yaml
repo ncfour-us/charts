@@ -15,7 +15,7 @@ repos:
         stages:
           - pre-commit
       - id: end-of-file-fixer
-        exclude: ^(\.pre-commit-config\.yaml|\.gitignore|\.gitattributes|\.projen/.*|\.github/.*|.*\.svg|\.yarn/.*|LICENSE|.mergify.yml|tsconfig.json|test/tsconfig.json|projenrc/tsconfig.json|.npmignore|API.md|CHANGELOG.md|typedoc.json|pnpm-workspace.yaml)$
+        exclude: ^(\.pre-commit-config\.yaml|\.gitignore|\.gitattributes|\.projen/.*|\.github/.*|.*\.svg|\.yarn/.*|LICENSE|\.mergify\.yml|tsconfig\.json|test/tsconfig\.json|projenrc/tsconfig\.json|examples/tsconfig\.json|\.npmignore|API\.md|CHANGELOG\.md|typedoc\.json|pnpm-workspace\.yaml)$
         stages:
           - pre-commit
       - id: check-added-large-files

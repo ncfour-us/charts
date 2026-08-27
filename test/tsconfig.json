@@ -8,7 +8,9 @@
   },
   "include": [
     "../**/*.ts",
-    "../.projenrc.ts"
+    "../.projenrc.ts",
+    "../eslint.config.ts",
+    "../prettier.config.ts"
   ],
   "exclude": [
     "node_modules"

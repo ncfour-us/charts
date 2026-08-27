@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Tim Hahn
+
 import fsp from 'node:fs/promises';
 import {
   CategoryScale,

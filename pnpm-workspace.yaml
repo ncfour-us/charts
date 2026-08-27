@@ -8,8 +8,10 @@ trustPolicy: no-downgrade
 allowBuilds:
   electron: true
   esbuild: true
+  unrs-resolver: true
   canvas: true
   skia-canvas: true
-  unrs-resolver: true
 trustPolicyExclude:
   - semver
+minimumReleaseAgeExclude:
+  - "@ncfour-us/projen-utils"

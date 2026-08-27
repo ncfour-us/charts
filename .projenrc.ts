@@ -1,52 +1,91 @@
+// Copyright (c) 2026 Tim Hahn
+
 import {
   TypeScriptESMProject,
   PnpmWorkspace,
   RepoBuildPackageModel,
+  sampleReadmeProps,
   ExamplesFolder,
 } from '@ncfour-us/projen-utils';
 import { javascript, JsonFile, JsonPatch } from 'projen';
 import { TypescriptConfig, TypescriptConfigExtends } from 'projen/lib/javascript';
 
 const project = new TypeScriptESMProject({
-  buildTagTask: true,
-  devDeps: ['@ncfour-us/projen-utils', 'typescript@^6', '@jest/globals'],
-  eslintFlatConfig: true,
+  authorName: 'Tim Hahn',
+  authorEmail: 'hahntj@gmail.com',
+
+  defaultReleaseBranch: 'main',
   name: '@ncfour-us/charts',
+  description: 'A set of chart generation objects which uses Chart.js',
   packageManager: javascript.NodePackageManager.PNPM,
-  prettierFlatConfig: true,
   projenrcTs: true,
 
-  // defaultReleaseBranch: "main",                                           /* The name of the main release branch. */
+  // repository: 'https://github.com/ncfour-us/charts.git',
+
+  packageName: '@ncfour-us/charts',
+
+  // set up the project with a LICENSE and copyright info
+  license: 'MIT',
+  copyrightOwner: 'Tim Hahn',
+  copyrightPeriod: '2026',
+
+  devDeps: ['@ncfour-us/projen-utils', 'typescript@^6', '@jest/globals'],
   deps: ['@ncfour-us/logging', 'chart.js', 'skia-canvas', 'sharp', 'canvas'],
-  description: 'A set of chart generation objects which uses Chart.js',
   // localPackageArchiveDir: ~/.local-build-packages,                        /* Location for local archive of released artifacts. */
   // packageName: undefined,                                                 /* The "name" in package.json. */
   // repoBuildPackageModel: RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY,  /* Type of repository, packaging, and release model to use. */
+  eslintFlatConfig: true,
+  prettierFlatConfig: true,
   precommitConfig: true,
+  pnpmWorkspace: true,
 
   repoBuildPackageModel: RepoBuildPackageModel.LOCAL_BUILD_PACKAGE,
   localPackageArchiveDir: '~/.tjh-packages',
   releaseToLocal: true,
+  // releaseToNpm: true,
+  // releaseToGithub: true,
+  buildTagTask: true,
+
+  docsIndex: true,
+  apiDocumentation: true,
+  apiEntryPoints: ['src/index.ts'],
+
+  readme: sampleReadmeProps({
+    namespace: '@ncfour-us',
+    project: 'charts',
+    author: 'Tim Hahn',
+    authorEmail: 'hahntj@gmail.com',
+    authorGithubUser: 'climbertjh',
+    license: 'MIT',
+  }),
 });
 
-const tsconfigTest = project.tryFindObjectFile('test/tsconfig.json');
+// mark the entry points to the module
+project.addFields({
+  exports: {
+    '.': './lib/index.js',
+  },
+});
 
-if (tsconfigTest) {
-  tsconfigTest.patch(JsonPatch.add('/compilerOptions/isolatedModules', true));
+// const tsconfigTest = project.tryFindObjectFile('test/tsconfig.json');
 
-  tsconfigTest.patch(JsonPatch.replace('/include', ['../**/*.ts', '../.projenrc.ts']));
-}
+// if (tsconfigTest) {
+//   tsconfigTest.patch(JsonPatch.add('/compilerOptions/isolatedModules', true));
 
-project.tryRemoveFile('pnpm-workspace.yaml');
-const pnpmWorkspace = new PnpmWorkspace(project);
+//   tsconfigTest.patch(JsonPatch.replace('/include', ['../**/*.ts', '../.projenrc.ts']));
+// }
 
-// const pnpmWorkspace = project.tryFindObjectFile('pnpm-workspace.yaml');
+// project.tryRemoveFile('pnpm-workspace.yaml');
+// const pnpmWorkspace = new PnpmWorkspace(project);
+
+const pnpmWorkspace = project.tryFindObjectFile('pnpm-workspace.yaml');
 
 if (pnpmWorkspace) {
   pnpmWorkspace.addOverride('allowBuilds.canvas', true);
   pnpmWorkspace.addOverride('allowBuilds.skia-canvas', true);
-  pnpmWorkspace.addOverride('allowBuilds.unrs-resolver', true);
-  pnpmWorkspace.addOverride('trustPolicyExclude', ['semver']);
+  //   pnpmWorkspace.addOverride('allowBuilds.unrs-resolver', true);
+  //   pnpmWorkspace.addOverride('trustPolicyExclude', ['semver']);
+  //   pnpmWorkspace.addOverride('minimumReleaseAgeExclude', ['@ncfour-us/projen-utils']);
 }
 // project.tryRemoveFile('pnpm-workspace.yaml');
 
@@ -60,12 +99,12 @@ if (pnpmWorkspace) {
 //   trustPolicyExclude: ['semver'],
 // });
 
-project.package.file.patch(JsonPatch.add('/jest/extensionsToTreatAsEsm', ['.ts']));
-project.package.file.patch(
-  JsonPatch.add('/jest/moduleNameMapper', {
-    '^(\\.{1,2}/.*)\\.js$': '$1',
-  }),
-);
+// project.package.file.patch(JsonPatch.add('/jest/extensionsToTreatAsEsm', ['.ts']));
+// project.package.file.patch(
+//   JsonPatch.add('/jest/moduleNameMapper', {
+//     '^(\\.{1,2}/.*)\\.js$': '$1',
+//   }),
+// );
 
 new ExamplesFolder(project, {
   exampleTsFile: false,

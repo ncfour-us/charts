@@ -1,3 +1,5 @@
+// Copyright (c) 2026 Tim Hahn
+
 import { writeFile } from 'node:fs/promises';
 import {
   CategoryScale,
@@ -70,6 +72,17 @@ export abstract class Chart {
   ): Promise<void> {
     const jpegBuffer: Buffer = await this.getJpegBuffer(xValues, yValues);
     return writeFile(fileName, jpegBuffer);
+  }
+
+  abstract getSvgBuffer(xValues: number[], yValues: ChartYData | ChartYData[]): Promise<Buffer>;
+
+  async writeSvg(
+    xValues: number[],
+    yValues: ChartYData | ChartYData[],
+    fileName: string,
+  ): Promise<void> {
+    const svgBuffer: Buffer = await this.getSvgBuffer(xValues, yValues);
+    return writeFile(fileName, svgBuffer);
   }
 
   abstract getHtmlBuffer(xValues: number[], yValues: ChartYData | ChartYData[]): Promise<string>;
@@ -231,7 +244,24 @@ export class XYLineChart extends Chart {
     return Promise.resolve(jpegBuffer);
   }
 
-  getHtmlBuffer(xValues: number[], yValues: ChartYData | ChartYData[]): Promise<string> {
+  async getSvgBuffer(xValues: number[], yValues: ChartYData | ChartYData[]): Promise<Buffer> {
+    const chartProperties = this.setChartProperties(xValues, yValues);
+
+    const canvas = new Canvas(800, 600);
+
+    const chart = new ChartJS(
+      canvas as any, // TypeScript needs "as any" here
+      chartProperties,
+    );
+
+    const svgBuffer = await canvas.toBuffer('svg', { matte: 'rgba(255,255,255,1)', outline: true });
+
+    chart.destroy();
+
+    return Promise.resolve(svgBuffer);
+  }
+
+  async getHtmlBuffer(xValues: number[], yValues: ChartYData | ChartYData[]): Promise<string> {
     let htmlBuffer: string = '';
 
     htmlBuffer = `

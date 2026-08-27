@@ -24,6 +24,8 @@ tsconfig.tsbuildinfo
 eslint.config.ts
 prettier.config.ts
 .pre-commit-config.yaml
+typedoc.json
+docs
 CHANGELOG.md
 pnpm-workspace.yaml
 /examples/tsconfig.json

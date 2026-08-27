@@ -20,3 +20,4 @@
 /projenrc/tsconfig.json linguist-generated linguist-language=JSON-with-Comments
 /test/tsconfig.json linguist-generated linguist-language=JSON-with-Comments
 /tsconfig.json linguist-generated linguist-language=JSON-with-Comments
+/typedoc.json linguist-generated
