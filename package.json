@@ -63,10 +63,10 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@ncfour-us/logging": "^0.0.31",
+    "@ncfour-us/logging": "^0.1.0",
     "canvas": "^3.2.3",
     "chart.js": "^4.5.1",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.4",
     "skia-canvas": "^3.0.8"
   },
   "pnpm": {},

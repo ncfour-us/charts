@@ -2,10 +2,20 @@
 
 ## Classes
 
+- [BarChart](classes/BarChart.md)
 - [Chart](classes/Chart.md)
+- [DonutChart](classes/DonutChart.md)
 - [XYLineChart](classes/XYLineChart.md)
 
 ## Interfaces
 
-- [ChartParms](interfaces/ChartParms.md)
+- [BarChartOptions](interfaces/BarChartOptions.md)
+- [ChartOptions](interfaces/ChartOptions.md)
+- [~~ChartParms~~](interfaces/ChartParms.md)
 - [ChartYData](interfaces/ChartYData.md)
+- [DonutChartOptions](interfaces/DonutChartOptions.md)
+- [XYLineChartOptions](interfaces/XYLineChartOptions.md)
+
+## Type Aliases
+
+- [ChartXData](type-aliases/ChartXData.md)

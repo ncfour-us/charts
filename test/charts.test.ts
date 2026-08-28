@@ -2,7 +2,7 @@
 
 import { test, expect, describe } from '@jest/globals';
 
-import { Chart, ChartYData, XYLineChart } from '@ncfour-us/charts';
+import { Chart, ChartYData, XYLineChart, BarChart } from '@ncfour-us/charts';
 
 describe('XYLineChart tests', () => {
   test('single set of y values - PNG', () => {
@@ -15,7 +15,8 @@ describe('XYLineChart tests', () => {
     const xVals: number[] = [1, 2, 3, 4];
     const yVals: ChartYData = { values: [2, 3, 4, 5] };
 
-    const testBuffer = myChart.getPngBuffer(xVals, yVals);
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getPngBuffer();
 
     expect(testBuffer).toBeDefined();
   });
@@ -30,7 +31,8 @@ describe('XYLineChart tests', () => {
     const xVals: number[] = [1, 2, 3, 4];
     const yVals: ChartYData[] = [{ values: [2, 3, 4, 5] }];
 
-    const testBuffer = myChart.getJpegBuffer(xVals, yVals);
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getJpegBuffer();
 
     expect(testBuffer).toBeDefined();
   });
@@ -48,7 +50,8 @@ describe('XYLineChart tests', () => {
       { values: [5, 7, 9, 11], label: 'line 2 label' },
     ];
 
-    const testBuffer = myChart.getPngBuffer(xVals, yVals);
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getPngBuffer();
 
     expect(testBuffer).toBeDefined();
   });
@@ -66,7 +69,8 @@ describe('XYLineChart tests', () => {
       { values: [5, 7, 9, 11], label: 'line 2 label' },
     ];
 
-    const testBuffer = myChart.getSvgBuffer(xVals, yVals);
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getSvgBuffer();
 
     expect(testBuffer).toBeDefined();
   });
@@ -84,7 +88,29 @@ describe('XYLineChart tests', () => {
       { values: [5, 7, 9, 11], label: 'line 2 label' },
     ];
 
-    const testBuffer = myChart.getHtmlBuffer(xVals, yVals);
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getHtmlBuffer();
+
+    expect(testBuffer).toBeDefined();
+  });
+});
+
+describe('BarChart tests', () => {
+  test('Simple Bar chart, numeric X, Y values', () => {
+    const myChart = new BarChart({
+      title: 'Chart Title',
+      xAxisTitle: 'X Axis title',
+      yAxisTitle: 'Y Axis title',
+    });
+
+    const xVals: number[] = [1, 2, 3, 4];
+    const yVals: ChartYData[] = [
+      { values: [2, 3, 4, 5] },
+      { values: [5, 7, 9, 11], label: 'bar 2 label' },
+    ];
+
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = myChart.getHtmlBuffer();
 
     expect(testBuffer).toBeDefined();
   });

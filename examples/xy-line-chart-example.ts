@@ -15,10 +15,12 @@ const myChart = new XYLineChart({
 
 const yVals = [{ values: [2, 3, 4, 5] }, { values: [5, 7, 9, 11], label: 'line 2 label' }];
 
-await myChart.writePng([1, 2, 3, 4], yVals, 'mychart.png');
+myChart.setChartData([1, 2, 3, 4], yVals);
 
-await myChart.writeJpeg([1, 2, 3, 4], { values: [7, 6, 5, 4] }, 'mychart.jpg');
+await myChart.writePngFile('mychart.png');
 
-await myChart.writeSvg([1, 2, 3, 4], { values: [7, 6, 5, 4] }, 'mychart.svg');
+await myChart.writeJpegFile('mychart.jpg');
 
-await myChart.writeHtml([1, 2, 3, 4], yVals, 'mychart.html');
+await myChart.writeSvgFile('mychart.svg');
+
+await myChart.writeHtmlFile('mychart.html');

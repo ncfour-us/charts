@@ -1,11 +1,12 @@
-[@ncfour-us/charts](../index.md) / XYLineChart
+[@ncfour-us/charts](../index.md) / BarChart
 
-# Class: XYLineChart
+# Class: BarChart
 
-Create a XY scatter plot with lines connecting the X,Y coordinates.
+Create a Bar chart with stacked bars corresponding to the Y values.
 
-Multiple Y value sets can be provided resulting in multiple lines
-being drawn on the plot.
+Multiple Y value sets can be provided resulting in side-by-side
+stacks of bars.  Group Y values into each stack by using the same
+group value for the ChartYData information.
 
 ## Extends
 
@@ -15,17 +16,17 @@ being drawn on the plot.
 
 ### Constructor
 
-> **new XYLineChart**(`options`): `XYLineChart`
+> **new BarChart**(`options`): `BarChart`
 
 #### Parameters
 
 ##### options
 
-[`XYLineChartOptions`](../interfaces/XYLineChartOptions.md)
+[`BarChartOptions`](../interfaces/BarChartOptions.md)
 
 #### Returns
 
-`XYLineChart`
+`BarChart`
 
 #### Overrides
 

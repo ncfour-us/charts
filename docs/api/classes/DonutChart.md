@@ -1,11 +1,10 @@
-[@ncfour-us/charts](../index.md) / XYLineChart
+[@ncfour-us/charts](../index.md) / DonutChart
 
-# Class: XYLineChart
+# Class: DonutChart
 
-Create a XY scatter plot with lines connecting the X,Y coordinates.
+Create a Donut chart with stripes corresponding to the Y values.
 
-Multiple Y value sets can be provided resulting in multiple lines
-being drawn on the plot.
+Multiple Y value sets can be provided resulting in concentric stripes.
 
 ## Extends
 
@@ -15,17 +14,17 @@ being drawn on the plot.
 
 ### Constructor
 
-> **new XYLineChart**(`options`): `XYLineChart`
+> **new DonutChart**(`options`): `DonutChart`
 
 #### Parameters
 
 ##### options
 
-[`XYLineChartOptions`](../interfaces/XYLineChartOptions.md)
+[`DonutChartOptions`](../interfaces/DonutChartOptions.md)
 
 #### Returns
 
-`XYLineChart`
+`DonutChart`
 
 #### Overrides
 

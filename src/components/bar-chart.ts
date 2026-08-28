@@ -3,9 +3,9 @@
 import { Chart, ChartOptions, ChartXData, ChartYData } from './chart.js';
 
 /**
- * Chart options specific to XY Line charts
+ * Chart options specific to Box charts
  */
-export interface XYLineChartOptions extends ChartOptions {
+export interface BarChartOptions extends ChartOptions {
   /**
    * X Axis title, defaults to 'X Axis Title'
    */
@@ -18,16 +18,17 @@ export interface XYLineChartOptions extends ChartOptions {
 }
 
 /**
- * Create a XY scatter plot with lines connecting the X,Y coordinates.
+ * Create a Bar chart with stacked bars corresponding to the Y values.
  *
- * Multiple Y value sets can be provided resulting in multiple lines
- * being drawn on the plot.
+ * Multiple Y value sets can be provided resulting in side-by-side
+ * stacks of bars.  Group Y values into each stack by using the same
+ * group value for the ChartYData information.
  */
-export class XYLineChart extends Chart {
+export class BarChart extends Chart {
   private xAxisTitle?: string;
   private yAxisTitle?: string;
 
-  constructor(options: XYLineChartOptions) {
+  constructor(options: BarChartOptions) {
     super(options);
 
     this.xAxisTitle = options.xAxisTitle ?? 'X Axis Title';
@@ -37,7 +38,7 @@ export class XYLineChart extends Chart {
   private setChartProperties(xValues: ChartXData, yValues: ChartYData | ChartYData[]): any {
     let isArray: boolean = false;
 
-    this.logger?.trace(`XYLineChart.setChartProperties: xValues.length: ${xValues.length}`);
+    this.logger?.trace(`BarChart.setChartProperties: xValues.length: ${xValues.length}`);
 
     if (Array.isArray(yValues)) {
       isArray = true;
@@ -46,51 +47,42 @@ export class XYLineChart extends Chart {
     let datasets;
 
     if (!isArray) {
-      const dataPoints = (yValues as ChartYData).values.map((val, index) => {
-        return {
-          x: xValues[index],
-          y: val,
-        };
-      });
+      const dataPoints = Array.from((yValues as ChartYData).values);
       datasets = [
         {
           data: dataPoints,
-          label: (yValues as ChartYData).label ?? 'line 1',
+          label: (yValues as ChartYData).label ?? 'bar 1',
           showLine: true,
           backgroundColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
           borderColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
           borderWidth: 3,
-          pointRadius: 1,
+          stack: (yValues as ChartYData).group ?? undefined,
         },
       ];
       this.logger?.trace(
-        `XYLineChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}`,
+        `BarChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}`,
       );
     } else {
       datasets = (yValues as ChartYData[]).map((value, lineNum) => {
-        const dataPoints = (value as ChartYData).values.map((val, index) => {
-          return {
-            x: xValues[index],
-            y: val,
-          };
-        });
+        const dataPoints = Array.from((value as ChartYData).values);
         this.logger?.trace(
-          `XYLineChart.setChartProperties: ${lineNum}th yValues.length: ${(value as ChartYData).values.length}`,
+          `BarChart.setChartProperties: ${lineNum}th yValues.length: ${(value as ChartYData).values.length}`,
         );
         return {
           data: dataPoints,
-          label: (value as ChartYData).label ?? `line ${lineNum + 1}`,
+          label: (value as ChartYData).label ?? `bar ${lineNum + 1}`,
           showLine: true,
           backgroundColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
           borderColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
           borderWidth: 3,
-          pointRadius: 1,
+          stack: (value as ChartYData).group ?? undefined,
         };
       });
     }
     const chartProperties: any = {
-      type: 'scatter',
+      type: 'bar',
       data: {
+        labels: xValues.map((value) => value),
         datasets: datasets,
       },
       options: {
@@ -113,12 +105,14 @@ export class XYLineChart extends Chart {
               display: true,
               text: this.xAxisTitle,
             },
+            stacked: true,
           },
           y: {
             title: {
               display: true,
               text: this.yAxisTitle,
             },
+            stacked: true,
           },
         },
       },

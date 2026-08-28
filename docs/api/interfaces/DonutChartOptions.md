@@ -1,12 +1,8 @@
-[@ncfour-us/charts](../index.md) / ChartParms
+[@ncfour-us/charts](../index.md) / DonutChartOptions
 
-# ~~Interface: ChartParms~~
+# Interface: DonutChartOptions
 
-Parameters for the Chart
-
-## Deprecated
-
-use [ChartOptions](ChartOptions.md) instead
+Chart options specific to Box charts
 
 ## Extends
 
@@ -14,7 +10,7 @@ use [ChartOptions](ChartOptions.md) instead
 
 ## Properties
 
-### ~~backgroundColor?~~
+### backgroundColor?
 
 > `optional` **backgroundColor?**: `string`
 
@@ -26,7 +22,7 @@ background color for rasterized charts, defaults to 'rgba(255,255,255,1)' (white
 
 ***
 
-### ~~logger?~~
+### logger?
 
 > `optional` **logger?**: `ILogger`
 
@@ -38,7 +34,16 @@ optional logger for the Chart object to use
 
 ***
 
-### ~~title?~~
+### stripeWidth?
+
+> `optional` **stripeWidth?**: `number`
+
+Width of the donut (between 0 and 1) as a percentage of the radius.
+Defaults to 0.5
+
+***
+
+### title?
 
 > `optional` **title?**: `string`
 
@@ -50,16 +55,16 @@ title for the chart, defaults to 'Chart Title'
 
 ***
 
-### ~~xAxisTitle?~~
+### xAxisTitle?
 
 > `optional` **xAxisTitle?**: `string`
 
-X Axis title
+X Axis title, defaults to 'X Axis Title'
 
 ***
 
-### ~~yAxisTitle?~~
+### yAxisTitle?
 
 > `optional` **yAxisTitle?**: `string`
 
-Y Axis title
+Y Axis title, defaults to 'Y Axis Title'
