@@ -104,6 +104,24 @@ if (pnpmWorkspace) {
 //   }),
 // );
 
+const precommitConfig = project.tryFindObjectFile('.pre-commit-config.yaml');
+
+if (precommitConfig) {
+  precommitConfig.addOverride(
+    'repos.1.hooks.0.exclude',
+    '(.*\.svg|^\.yarn/.*|test/__snapshots__/.*)$',
+  );
+  precommitConfig.addOverride('repos.1.hooks.2.exclude', '^(test/__snapshots__/.*)$');
+}
+
+const testTask = project.tasks.tryFind('test');
+if (testTask) {
+  testTask?.updateStep(0, {
+    execArgs: ['jest', '--passWithNoTests'],
+    receiveArgs: true,
+  });
+}
+
 new ExamplesFolder(project, {
   exampleTsFile: false,
 });

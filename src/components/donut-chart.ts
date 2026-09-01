@@ -130,15 +130,28 @@ export class DonutChart extends Chart {
 
     if (!isArray) {
       const dataPoints = Array.from((yValues as ChartYData).values);
+
+      // use the passed in value for colors, if passed, otherwise, create
+      // an array of colors in the range from black to white, equally spaced
+      // along all three R, G, B axes.
+      const colors =
+        (yValues as ChartYData).color ??
+        Array(dataPoints.length)
+          .fill('')
+          .map((_item, index) => {
+            const colorLevel = Math.trunc((index / dataPoints.length) * 255);
+            return `rgba(${colorLevel}, ${colorLevel}, ${colorLevel}, 1)`;
+          });
+
       datasets = [
         {
           data: dataPoints,
           label: (yValues as ChartYData).label ?? 'dataset 1',
-          backgroundColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
+          backgroundColor: colors,
         },
       ];
       this.logger?.trace(
-        `DonutChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}`,
+        `DonutChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}, colors: ${JSON.stringify(colors, null, 2)}`,
       );
 
       // The set of data (slice) labels MUST match the number of data points - fill in or remove
@@ -165,12 +178,27 @@ export class DonutChart extends Chart {
         if (Array.isArray((value as ChartYData).color)) {
           if ((value as ChartYData).color) {
             backgroundColors = ((value as ChartYData).color as Array<string>).map((val) => val);
-          } else {
-            backgroundColors = 'rgba(0,0,0,1)';
           }
+          // TODO - remove this?
+          // else {
+          //   backgroundColors = 'rgba(0,0,0,1)';
+          // }
         } else {
-          backgroundColors = (value as ChartYData).color ?? 'rgba(0,0,0,1)';
+          // use the passed in value for colors, if passed, otherwise, create
+          // an array of colors in the range from black to white, equally spaced
+          // along all three R, G, B axes.
+          backgroundColors =
+            (value as ChartYData).color ??
+            Array(dataPoints.length)
+              .fill('')
+              .map((_item, index) => {
+                const colorLevel = Math.trunc((index / dataPoints.length) * 255);
+                return `rgba(${colorLevel}, ${colorLevel}, ${colorLevel}, 1)`;
+              });
         }
+        this.logger?.trace(
+          `DonutChart.setChartProperties: ${lineNum}th backgroundColors: ${backgroundColors}`,
+        );
         return {
           data: dataPoints,
           label: (value as ChartYData).label ?? `dataset ${lineNum + 1}`,

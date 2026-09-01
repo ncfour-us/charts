@@ -11,7 +11,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: (.*\.svg|^\.yarn/.*)
+        exclude: (.*.svg|^.yarn/.*|test/__snapshots__/.*)$
         stages:
           - pre-commit
       - id: end-of-file-fixer
@@ -21,6 +21,7 @@ repos:
       - id: check-added-large-files
         stages:
           - pre-commit
+        exclude: ^(test/__snapshots__/.*)$
       - id: check-yaml
         exclude: ^(pnpm-lock.yaml)$
         stages:

@@ -422,8 +422,7 @@
         {
           "execArgs": [
             "jest",
-            "--passWithNoTests",
-            "--updateSnapshot"
+            "--passWithNoTests"
           ],
           "receiveArgs": true
         },
