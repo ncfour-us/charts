@@ -18,7 +18,9 @@
     "post-upgrade": "projen post-upgrade",
     "pre-compile": "projen pre-compile",
     "publish:git": "projen publish:git",
+    "publish:github": "projen publish:github",
     "publish:local": "projen publish:local",
+    "publish:npm": "projen publish:npm",
     "release": "projen release",
     "test": "projen test",
     "test:watch": "projen test:watch",
@@ -83,7 +85,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "version": "0.0.0",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@12.2.1+sha512.f55ca68aacb9eb5ab69c66f828a98af89a32286703aef1f8da131ca7eab4d677f34bfa85e186467a919c0799df8b6f4aa240f7dc2919b33b3273190104162616",
   "jest": {
     "coverageProvider": "v8",
     "testMatch": [
