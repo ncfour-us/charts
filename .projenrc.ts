@@ -107,13 +107,16 @@ if (pnpmWorkspace) {
 const precommitConfig = project.tryFindObjectFile('.pre-commit-config.yaml');
 
 if (precommitConfig) {
+  // Add exclude for "trailing-whitespace" hook to exclude test snapshots
   precommitConfig.addOverride(
     'repos.1.hooks.0.exclude',
     '(.*\.svg|^\.yarn/.*|test/__snapshots__/.*)$',
   );
+  // add exclude for "check-added-large-files" hook to exclude test snapshots
   precommitConfig.addOverride('repos.1.hooks.2.exclude', '^(test/__snapshots__/.*)$');
 }
 
+// Update the "test" task to REMOVE the --updateSnapshots option which is added by default in projen
 const testTask = project.tasks.tryFind('test');
 if (testTask) {
   testTask?.updateStep(0, {
