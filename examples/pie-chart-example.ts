@@ -2,7 +2,7 @@
 
 import { ILogger, Logger } from '@ncfour-us/logging';
 
-import { DonutChart } from '@ncfour-us/charts';
+import { PieChart } from '@ncfour-us/charts';
 
 const logger: ILogger = Logger.createLogger('simple', {
   level: 'error',
@@ -10,7 +10,7 @@ const logger: ILogger = Logger.createLogger('simple', {
   color: true,
 });
 
-const myChart = new DonutChart({
+const myChart = new PieChart({
   title: 'My Chart Title',
   xAxisTitle: 'My X Axis label',
   yAxisTitle: 'My Y Axis label',
@@ -64,11 +64,11 @@ const jpegBuffer: Buffer = await myChart.getJpegBuffer();
 const svgBuffer: Buffer = await myChart.getSvgBuffer();
 const htmlBuffer: string = await myChart.getHtmlBuffer();
 
-await myChart.writePngFile('my-donutchart.png');
+await myChart.writePngFile('my-piechart.png');
 
-await myChart.writeJpegFile('my-donutchart.jpg');
+await myChart.writeJpegFile('my-piechart.jpg');
 
-await myChart.writeSvgFile('my-donutchart.svg');
+await myChart.writeSvgFile('my-piechart.svg');
 
 const styleSection = `
 <style>
@@ -96,7 +96,7 @@ const pngDiv = `
   </div>
   <div class="row-item">
     <p>Referenced PNG file:</p>
-    <img src="my-donutchart.png">
+    <img src="my-piechart.png">
   </div>
 </div>`;
 
@@ -109,7 +109,7 @@ const jpegDiv = `
   </div>
   <div class="row-item">
     <p>Referenced JPEG file:</p>
-    <img src="my-donutchart.jpg">
+    <img src="my-piechart.jpg">
   </div>
 </div>`;
 
@@ -124,11 +124,11 @@ const svgDiv = `
   </div>
   <div class="row-item">
     <p>Referenced SVG file:</p>
-    <img src="my-donutchart.svg">
+    <img src="my-piechart.svg">
   </div>
 </div>`;
 
-await myChart.writeHtmlFile('my-donutchart.html', 'Donut Chart Example formats', [
+await myChart.writeHtmlFile('my-piechart.html', 'Pie Chart Example formats', [
   styleSection,
   htmlBuffer,
   svgDiv,

@@ -58,7 +58,7 @@ export class DonutChart extends Chart {
     this.logger?.trace(`DonutChart.constructor: stripWidth: ${this.stripeWidth}`);
   }
 
-  private genLabelsFunction(chart: any) {
+  private generateLabelsFunction(chart: any) {
     // Get the default label list
     const original = ChartJS.overrides.doughnut.plugins.legend.labels.generateLabels;
     const labelsOriginal = original.call(this, chart);
@@ -90,6 +90,30 @@ export class DonutChart extends Chart {
     });
 
     return labelsOriginal;
+  }
+
+  // NOTE - this function was lifted from Chart.js example at:
+  // https://www.chartjs.org/docs/latest/samples/other-charts/multi-series-pie.html
+  //
+  private handleLegendClickFunction(_mouseEvent: any, legendItem: any, legend: any) {
+    // toggle the visibility of the dataset from what it currently is
+    legend.chart.getDatasetMeta(legendItem.datasetIndex).hidden = legend.chart.isDatasetVisible(
+      legendItem.datasetIndex,
+    );
+    legend.chart.update();
+  }
+
+  private getTitleFunction(context: any) {
+    const datasetOffsets: number[] = [];
+    context[0].chart.data.datasets.forEach((_e: any, index: number) => {
+      let offset = 0;
+      for (let i = 0; i < index; i++) {
+        offset += context[0].chart.data.datasets[i].data.length;
+      }
+      datasetOffsets.push(offset);
+    });
+    const labelIndex = datasetOffsets[context[0].datasetIndex] + context[0].dataIndex;
+    return context[0].chart.data.labels[labelIndex];
   }
 
   private setChartProperties(xValues: ChartXData, yValues: ChartYData | ChartYData[]): any {
@@ -190,7 +214,7 @@ export class DonutChart extends Chart {
               // files.
 
               // generateLabels: this.genLabelsFunction,
-              generateLabels: this.genLabelsFunction,
+              generateLabels: this.generateLabelsFunction,
 
               // function (chart: any) {
               //   // Get the default label list
@@ -221,12 +245,7 @@ export class DonutChart extends Chart {
             // NOTE - this function was lifted from Chart.js example at:
             // https://www.chartjs.org/docs/latest/samples/other-charts/multi-series-pie.html
             //
-            onClick: function (_mouseEvent: any, legendItem: any, legend: any) {
-              // toggle the visibility of the dataset from what it currently is
-              legend.chart.getDatasetMeta(legendItem.datasetIndex).hidden =
-                legend.chart.isDatasetVisible(legendItem.datasetIndex);
-              legend.chart.update();
-            },
+            onClick: this.handleLegendClickFunction,
             position: 'right',
           },
           // tooltip: {
@@ -249,6 +268,11 @@ export class DonutChart extends Chart {
           //     },
           //   },
           // },
+          tooltip: {
+            callbacks: {
+              title: this.getTitleFunction,
+            },
+          },
         },
       },
     };
@@ -257,7 +281,7 @@ export class DonutChart extends Chart {
     // chartProperties.options.plugins.legend.labels.generateLabels = '{{wigglewiggle}}';
 
     this.logger?.trace(
-      `DonutChart.setChartProperties: generateLabelsFunction: ${this.genLabelsFunction.toString().replace('genLabelsFunction', 'function').replace('ChartJS', 'Chart')}`,
+      `DonutChart.setChartProperties: generateLabelsFunction: ${this.generateLabelsFunction.toString().replace('genLabelsFunction', 'function').replace('ChartJS', 'Chart')}`,
     );
 
     return chartProperties;
@@ -284,16 +308,30 @@ export class DonutChart extends Chart {
 
     const generateLabelsFunction =
       this.chartProperties.options.plugins.legend.labels.generateLabels;
+    const handleLegendClickFunction = this.chartProperties.options.plugins.legend.onClick;
+    const getTitleFunction = this.chartProperties.options.plugins.tooltip.callbacks.title;
 
     // set up replacements for callbacks defined in chartProperties
     this.chartProperties.options.plugins.legend.labels.generateLabels =
       '{{generateLabelsFunction}}';
     chartPropertyReplacements.push({
       target: '"{{generateLabelsFunction}}"',
-      value: this.genLabelsFunction
+      value: this.generateLabelsFunction
         .toString()
-        .replace('genLabelsFunction', 'function')
+        .replace('generateLabelsFunction', 'function')
         .replace('ChartJS', 'Chart'),
+    });
+    this.chartProperties.options.plugins.legend.onClick = '{{handleLegendClickFunction}}';
+    chartPropertyReplacements.push({
+      target: '"{{handleLegendClickFunction}}"',
+      value: this.handleLegendClickFunction
+        .toString()
+        .replace('handleLegendClickFunction', 'function'),
+    });
+    this.chartProperties.options.plugins.tooltip.callbacks.title = '{{getTitleFunction}}';
+    chartPropertyReplacements.push({
+      target: '"{{getTitleFunction}}"',
+      value: this.getTitleFunction.toString().replace('getTitleFunction', 'function'),
     });
 
     let htmlBuffer: string = await super.getHtmlBuffer();
@@ -310,6 +348,8 @@ export class DonutChart extends Chart {
 
     // restore the chartProperties to contain the callbacks
     this.chartProperties.options.plugins.legend.labels.generateLabels = generateLabelsFunction;
+    this.chartProperties.options.plugins.legend.onClick = handleLegendClickFunction;
+    this.chartProperties.options.plugins.tooltip.callbacks.title = getTitleFunction;
 
     return htmlBuffer;
   }

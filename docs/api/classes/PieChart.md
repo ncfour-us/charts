@@ -1,26 +1,25 @@
-[@ncfour-us/charts](../index.md) / DonutChart
+[@ncfour-us/charts](../index.md) / PieChart
 
-# Class: DonutChart
+# Class: PieChart
 
-Create a Donut chart with stripes corresponding to the Y values.
+Create a Pie chart with slices corresponding to the Y values.
 
-Multiple Y value sets can be provided resulting in concentric stripes.
+Multiple Y value sets can be provided resulting in concentric circles.
+
+A Pie chart is simply a Donut chart with slices that take up
+the entire circle.
 
 ## Extends
 
-- [`Chart`](Chart.md)
-
-## Extended by
-
-- [`PieChart`](PieChart.md)
+- [`DonutChart`](DonutChart.md)
 
 ## Constructors
 
 ### Constructor
 
-> **new DonutChart**(`options`): `DonutChart`
+> **new PieChart**(`options`): `PieChart`
 
-Creates a new DonutChart instance.
+Creates a new PieChart instance.
 
 #### Parameters
 
@@ -32,11 +31,11 @@ the set of options to specify for the chart.
 
 #### Returns
 
-`DonutChart`
+`PieChart`
 
 #### Overrides
 
-[`Chart`](Chart.md).[`constructor`](Chart.md#constructor)
+[`DonutChart`](DonutChart.md).[`constructor`](DonutChart.md#constructor)
 
 ## Properties
 
@@ -46,7 +45,7 @@ the set of options to specify for the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`chartProperties`](Chart.md#chartproperties)
+[`DonutChart`](DonutChart.md).[`chartProperties`](DonutChart.md#chartproperties)
 
 ***
 
@@ -56,7 +55,7 @@ the set of options to specify for the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`logger`](Chart.md#logger)
+[`DonutChart`](DonutChart.md).[`logger`](DonutChart.md#logger)
 
 ***
 
@@ -66,7 +65,7 @@ the set of options to specify for the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`title`](Chart.md#title)
+[`DonutChart`](DonutChart.md).[`title`](DonutChart.md#title)
 
 ## Methods
 
@@ -95,9 +94,9 @@ If embedding into an HTML document, just use the returned Buffer.  For example:
 
 a Buffer containing an HTML &lt;div&gt; with embedded JavaScript &lt;script&gt;.
 
-#### Overrides
+#### Inherited from
 
-[`Chart`](Chart.md).[`getHtmlBuffer`](Chart.md#gethtmlbuffer)
+[`DonutChart`](DonutChart.md).[`getHtmlBuffer`](DonutChart.md#gethtmlbuffer)
 
 ***
 
@@ -125,7 +124,7 @@ a Buffer containing a rasterized JPEG image of the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`getJpegBuffer`](Chart.md#getjpegbuffer)
+[`DonutChart`](DonutChart.md).[`getJpegBuffer`](DonutChart.md#getjpegbuffer)
 
 ***
 
@@ -150,7 +149,7 @@ a Buffer containing a rasterized PNG image of the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`getPngBuffer`](Chart.md#getpngbuffer)
+[`DonutChart`](DonutChart.md).[`getPngBuffer`](DonutChart.md#getpngbuffer)
 
 ***
 
@@ -176,7 +175,7 @@ a Buffer containing a SVG rendering of the chart.
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`getSvgBuffer`](Chart.md#getsvgbuffer)
+[`DonutChart`](DonutChart.md).[`getSvgBuffer`](DonutChart.md#getsvgbuffer)
 
 ***
 
@@ -210,9 +209,9 @@ the vector(s) of Y values corresponding to the X values
 
 `void`
 
-#### Overrides
+#### Inherited from
 
-[`Chart`](Chart.md).[`setChartData`](Chart.md#setchartdata)
+[`DonutChart`](DonutChart.md).[`setChartData`](DonutChart.md#setchartdata)
 
 ***
 
@@ -248,7 +247,7 @@ Use [setChartData](Chart.md#setchartdata) and [writeHtmlFile](Chart.md#writehtml
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeHtml`](Chart.md#writehtml)
+[`DonutChart`](DonutChart.md).[`writeHtml`](DonutChart.md#writehtml)
 
 ***
 
@@ -290,7 +289,7 @@ a Promise from the writeFile() invocation
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeHtmlFile`](Chart.md#writehtmlfile)
+[`DonutChart`](DonutChart.md).[`writeHtmlFile`](DonutChart.md#writehtmlfile)
 
 ***
 
@@ -326,7 +325,7 @@ Use [setChartData](Chart.md#setchartdata) and [writeJpegFile](Chart.md#writejpeg
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeJpeg`](Chart.md#writejpeg)
+[`DonutChart`](DonutChart.md).[`writeJpeg`](DonutChart.md#writejpeg)
 
 ***
 
@@ -352,7 +351,7 @@ a Promise from the writeFile() invocation
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeJpegFile`](Chart.md#writejpegfile)
+[`DonutChart`](DonutChart.md).[`writeJpegFile`](DonutChart.md#writejpegfile)
 
 ***
 
@@ -388,7 +387,7 @@ Use [setChartData](Chart.md#setchartdata) and [writePngFile](Chart.md#writepngfi
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writePng`](Chart.md#writepng)
+[`DonutChart`](DonutChart.md).[`writePng`](DonutChart.md#writepng)
 
 ***
 
@@ -414,7 +413,7 @@ a Promise from the writeFile() invocation
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writePngFile`](Chart.md#writepngfile)
+[`DonutChart`](DonutChart.md).[`writePngFile`](DonutChart.md#writepngfile)
 
 ***
 
@@ -450,7 +449,7 @@ Use [setChartData](Chart.md#setchartdata) and [writeSvgFile](Chart.md#writesvgfi
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeSvg`](Chart.md#writesvg)
+[`DonutChart`](DonutChart.md).[`writeSvg`](DonutChart.md#writesvg)
 
 ***
 
@@ -476,4 +475,4 @@ a Promise from the writeFile() invocation
 
 #### Inherited from
 
-[`Chart`](Chart.md).[`writeSvgFile`](Chart.md#writesvgfile)
+[`DonutChart`](DonutChart.md).[`writeSvgFile`](DonutChart.md#writesvgfile)

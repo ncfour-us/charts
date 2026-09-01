@@ -5,6 +5,7 @@
 - [BarChart](classes/BarChart.md)
 - [Chart](classes/Chart.md)
 - [DonutChart](classes/DonutChart.md)
+- [PieChart](classes/PieChart.md)
 - [XYLineChart](classes/XYLineChart.md)
 
 ## Interfaces

@@ -3,7 +3,7 @@
 import { BarChartOptions, BarChart } from './components/bar-chart.js';
 import { Chart, ChartParms, ChartOptions, ChartXData, ChartYData } from './components/chart.js';
 
-import { DonutChartOptions, DonutChart } from './components/donut-chart.js';
+import { DonutChartOptions, DonutChart, PieChart } from './components/donut-chart.js';
 import { XYLineChartOptions, XYLineChart } from './components/xy-line-chart.js';
 
 export type {
@@ -16,4 +16,4 @@ export type {
   ChartYData,
 };
 
-export { Chart, XYLineChart, BarChart, DonutChart };
+export { Chart, XYLineChart, BarChart, DonutChart, PieChart };
