@@ -1,4 +1,14 @@
 
+## [0.0.4](///compare/v0.0.3...v0.0.4) (2026-09-01)
+
+
+### Features
+
+* handle HTML generated DonutChart callbacks for multiple datasets 12149aa
+* implement more unit tests, update project test task to REMOVE --updateSnapshots flag, add test snapshots eff99cd
+* initial implementation of BarChart and DonutChart 77811f4
+* update examples, add additional callbacks for Donut/Pie charts 86da6a7
+
 ## [0.0.3](///compare/v0.0.2...v0.0.3) (2026-08-27)
 
 
