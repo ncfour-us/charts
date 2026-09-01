@@ -18,7 +18,7 @@ const project = new TypeScriptESMProject({
   packageManager: javascript.NodePackageManager.PNPM,
   projenrcTs: true,
 
-  // repository: 'https://github.com/ncfour-us/charts.git',
+  repository: 'https://github.com/ncfour-us/charts.git',
 
   packageName: '@ncfour-us/charts',
 

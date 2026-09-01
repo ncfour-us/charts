@@ -1,6 +1,10 @@
 {
   "name": "@ncfour-us/charts",
   "description": "A set of chart generation objects which uses Chart.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ncfour-us/charts.git"
+  },
   "scripts": {
     "build": "projen build",
     "build:tag": "projen build:tag",
@@ -85,7 +89,7 @@
   "main": "lib/index.js",
   "license": "MIT",
   "version": "0.0.0",
-  "packageManager": "pnpm@12.2.1+sha512.f55ca68aacb9eb5ab69c66f828a98af89a32286703aef1f8da131ca7eab4d677f34bfa85e186467a919c0799df8b6f4aa240f7dc2919b33b3273190104162616",
+  "packageManager": "pnpm@10.33.0",
   "jest": {
     "coverageProvider": "v8",
     "testMatch": [
