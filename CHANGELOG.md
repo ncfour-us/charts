@@ -1,4 +1,11 @@
 
+## [0.0.5](https://github.com/ncfour-us/charts/compare/v0.0.4...v0.0.5) (2026-09-01)
+
+
+### Bug Fixes
+
+* set repository value in .projenrc.ts ([3627b2b](https://github.com/ncfour-us/charts/commit/3627b2b14c9c63058c545e983761ee179141d0a9))
+
 ## [0.0.4](///compare/v0.0.3...v0.0.4) (2026-09-01)
 
 
