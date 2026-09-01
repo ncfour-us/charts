@@ -14,7 +14,7 @@ Chart options specific to Box charts
 
 > `optional` **backgroundColor?**: `string`
 
-background color for rasterized charts, defaults to 'rgba(255,255,255,1)' (white)
+background color for charts, defaults to 'rgba(0,0,0,0)' (transparent).
 
 #### Inherited from
 
@@ -40,6 +40,9 @@ optional logger for the Chart object to use
 
 Width of the donut (between 0 and 1) as a percentage of the radius.
 Defaults to 0.5
+
+Any number passed in that is less than 0 or greater than 1 will
+be ignored, defaulting to 0.5.
 
 ***
 

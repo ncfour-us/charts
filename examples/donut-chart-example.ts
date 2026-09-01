@@ -1,12 +1,22 @@
 // Copyright (c) 2026 Tim Hahn
 
+import { ILogger, Logger } from '@ncfour-us/logging';
+
 import { DonutChart } from '@ncfour-us/charts';
+
+const logger: ILogger = Logger.createLogger('simple', {
+  level: 'trace',
+  json: false,
+  color: true,
+});
 
 const myChart = new DonutChart({
   title: 'My Chart Title',
   xAxisTitle: 'My X Axis label',
   yAxisTitle: 'My Y Axis label',
   stripeWidth: 0.9,
+
+  logger: logger,
 });
 
 // const yVals = [
@@ -22,12 +32,12 @@ const yVals = [
   {
     values: [5, 7, 9, 11],
     color: ['rgba(0,0,255,1)', 'rgba(0,0,255,1)', 'rgba(0,0,255,1)', 'rgba(0,0,255,1)'],
-    label: 'bar 2 label',
+    label: 'DS 2 label',
   },
   {
     values: [5, 7, 9, 11],
     color: ['rgba(255,0,0,1)', 'rgba(0,255,0,1)', 'rgba(0,0,255,1)', 'rgba(255, 255, 0,1)'],
-    label: 'bar 3 label',
+    label: 'DS 3 label',
     group: 'group2',
   },
 ];

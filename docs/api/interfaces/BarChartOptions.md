@@ -14,7 +14,7 @@ Chart options specific to Box charts
 
 > `optional` **backgroundColor?**: `string`
 
-background color for rasterized charts, defaults to 'rgba(255,255,255,1)' (white)
+background color for charts, defaults to 'rgba(0,0,0,0)' (transparent).
 
 #### Inherited from
 

@@ -47,7 +47,7 @@ export interface ChartOptions {
   title?: string;
 
   /**
-   * background color for rasterized charts, defaults to 'rgba(255,255,255,1)' (white)
+   * background color for charts, defaults to 'rgba(0,0,0,0)' (transparent).
    */
   backgroundColor?: string;
 
@@ -98,6 +98,12 @@ export interface ChartYData {
 
   /**
    * color for the data points/line, defaults to 'rgba(0,0,0,1)' (black)
+   *
+   * For XY-Line and Bar charts, only a single value is used.  If an array
+   * is passed, the value at array index 0 is used.
+   *
+   * For Donut and Pie charts, an array of values is used, in order,
+   * for the colors of the slices of the Donut/Pie.
    */
   color?: string | string[];
 
@@ -131,7 +137,7 @@ export abstract class Chart {
     this.logger = options.logger;
 
     this.title = options.title ?? 'Chart Title';
-    this.backgroundColor = options.backgroundColor ?? 'rgba(255,255,255,1)';
+    this.backgroundColor = options.backgroundColor ?? 'rgba(0,0,0,0)';
     this.chartProperties = {};
   }
 
@@ -210,6 +216,9 @@ export abstract class Chart {
    *
    * Use Buffer.toString('base64') to get a usable string.
    *
+   * NOTE: if the backgroundColor for the chart is set to 'rgb&lbrack;a&rbrack;(*,*,*,0)' (transparent)
+   * then the background will be set to 'rgba(255,255,255,1)' (white).
+   *
    * If embedding into an HTML document, prepend the Base-64 encoded string with
    * 'data:image/jpeg;base64,'.  For example:
    *
@@ -218,6 +227,8 @@ export abstract class Chart {
    * @returns a Buffer containing a rasterized JPEG image of the chart.
    */
   public async getJpegBuffer(): Promise<Buffer> {
+    const regex = new RegExp('^rgba\\([0-9]*,[0-9]*,[0-9]*,(?<transparency>[0-9\\.]*)\\)$');
+    let backgroundColorToUse: string = this.backgroundColor;
     const canvas = new Canvas(800, 600);
 
     const chart = new ChartJS(
@@ -229,7 +240,17 @@ export abstract class Chart {
       `Chart.getJpegBuffer: chartProperties: ${JSON.stringify(this.chartProperties, null, 2)}`,
     );
 
-    const jpegBuffer = await canvas.toBuffer('jpg', { matte: this.backgroundColor, quality: 1.0 });
+    const matches = regex.exec(this.backgroundColor);
+
+    // if the supplied background color is transparent, switch it to white for generating the JPEG.
+    // This is because JPEG does not support a transparent background.
+    if (matches?.groups?.transparency) {
+      if (parseInt(matches.groups.transparency) === 0) {
+        backgroundColorToUse = 'rgba(255,255,255,1)';
+      }
+    }
+
+    const jpegBuffer = await canvas.toBuffer('jpg', { matte: backgroundColorToUse, quality: 1.0 });
 
     chart.destroy();
 
@@ -357,7 +378,7 @@ export abstract class Chart {
     );
 
     htmlBuffer = `
-    <div style="height: 80vh, width: 60vh; margin: auto;">
+    <div style="height: 60vh; width: 80vw; margin: auto; background-color: ${this.backgroundColor}">
       <canvas id="myScatterChart${randomSuffix}">
 
       <script>
@@ -404,6 +425,9 @@ export abstract class Chart {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <!-- Un-comment the following line to enable light/dark mode for this HTML page
+              <meta name="color-scheme" content="light dark">
+            -->
             <title>${this.title}</title>
             <!-- Include Chart.js from CDN -->
             <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
@@ -450,6 +474,9 @@ export abstract class Chart {
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <!-- Un-comment the following line to enable light/dark mode for this HTML page
+              <meta name="color-scheme" content="light dark">
+            -->
             <title>${pageTitle ?? this.title}</title>
             <!-- Include Chart.js from CDN -->
             <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->

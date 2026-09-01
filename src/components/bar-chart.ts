@@ -28,6 +28,11 @@ export class BarChart extends Chart {
   private xAxisTitle?: string;
   private yAxisTitle?: string;
 
+  /**
+   * Creates a new BarChart instance.
+   *
+   * @param options the set of options to specify for the chart.
+   */
   constructor(options: BarChartOptions) {
     super(options);
 
@@ -47,38 +52,59 @@ export class BarChart extends Chart {
     let datasets;
 
     if (!isArray) {
-      const dataPoints = Array.from((yValues as ChartYData).values);
+      const yValuesChartYData: ChartYData = yValues as ChartYData;
+
+      const dataPoints = Array.from(yValuesChartYData.values);
+
+      let colorToUse: string;
+      if (Array.isArray(yValuesChartYData.color)) {
+        colorToUse = yValuesChartYData.color[0];
+      } else {
+        colorToUse = yValuesChartYData.color ?? 'rgba(0,0,0,1)';
+      }
+
       datasets = [
         {
           data: dataPoints,
-          label: (yValues as ChartYData).label ?? 'bar 1',
+          label: yValuesChartYData.label ?? 'bar 1',
           showLine: true,
-          backgroundColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
-          borderColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
+          backgroundColor: colorToUse,
+          borderColor: colorToUse,
           borderWidth: 3,
-          stack: (yValues as ChartYData).group ?? undefined,
+          stack: yValuesChartYData.group ?? undefined,
         },
       ];
       this.logger?.trace(
-        `BarChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}`,
+        `BarChart.setChartProperties: single yValues.length: ${yValuesChartYData.values.length}`,
       );
     } else {
-      datasets = (yValues as ChartYData[]).map((value, lineNum) => {
-        const dataPoints = Array.from((value as ChartYData).values);
+      const yValuesChartYDataArray: ChartYData[] = yValues as ChartYData[];
+
+      datasets = yValuesChartYDataArray.map((value, lineNum) => {
+        const dataPoints = Array.from(value.values);
+
+        let colorToUse: string;
+        if (Array.isArray(value.color)) {
+          colorToUse = value.color[0];
+        } else {
+          colorToUse = value.color ?? 'rgba(0,0,0,1)';
+        }
+
         this.logger?.trace(
-          `BarChart.setChartProperties: ${lineNum}th yValues.length: ${(value as ChartYData).values.length}`,
+          `BarChart.setChartProperties: ${lineNum}th yValues.length: ${value.values.length}`,
         );
         return {
           data: dataPoints,
-          label: (value as ChartYData).label ?? `bar ${lineNum + 1}`,
+          label: value.label ?? `bar ${lineNum + 1}`,
           showLine: true,
-          backgroundColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
-          borderColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
+          backgroundColor: colorToUse,
+          borderColor: colorToUse,
           borderWidth: 3,
-          stack: (value as ChartYData).group ?? undefined,
+          stack: value.group ?? undefined,
         };
       });
     }
+
     const chartProperties: any = {
       type: 'bar',
       data: {

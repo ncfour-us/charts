@@ -6,6 +6,7 @@ const myChart = new XYLineChart({
   title: 'My Chart Title',
   xAxisTitle: 'My X Axis label',
   yAxisTitle: 'My Y Axis label',
+  backgroundColor: 'rgba(0,0,0,0)', // transparent
 });
 
 // const yVals = [

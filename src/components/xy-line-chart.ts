@@ -27,6 +27,11 @@ export class XYLineChart extends Chart {
   private xAxisTitle?: string;
   private yAxisTitle?: string;
 
+  /**
+   * Creates a new XYLineChart instance.
+   *
+   * @param options the set of options to specify for the chart.
+   */
   constructor(options: XYLineChartOptions) {
     super(options);
 
@@ -46,48 +51,69 @@ export class XYLineChart extends Chart {
     let datasets;
 
     if (!isArray) {
-      const dataPoints = (yValues as ChartYData).values.map((val, index) => {
+      const yValuesChartYData: ChartYData = yValues as ChartYData;
+
+      const dataPoints = yValuesChartYData.values.map((val, index) => {
         return {
           x: xValues[index],
           y: val,
         };
       });
+
+      let colorToUse: string;
+      if (Array.isArray(yValuesChartYData.color)) {
+        colorToUse = yValuesChartYData.color[0];
+      } else {
+        colorToUse = yValuesChartYData.color ?? 'rgba(0,0,0,1)';
+      }
+
       datasets = [
         {
           data: dataPoints,
-          label: (yValues as ChartYData).label ?? 'line 1',
+          label: yValuesChartYData.label ?? 'line 1',
           showLine: true,
-          backgroundColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
-          borderColor: (yValues as ChartYData).color ?? 'rgba(0,0,0,1)',
+          backgroundColor: colorToUse,
+          borderColor: colorToUse,
           borderWidth: 3,
           pointRadius: 1,
         },
       ];
       this.logger?.trace(
-        `XYLineChart.setChartProperties: single yValues.length: ${(yValues as ChartYData).values.length}`,
+        `XYLineChart.setChartProperties: single yValues.length: ${yValuesChartYData.values.length}`,
       );
     } else {
-      datasets = (yValues as ChartYData[]).map((value, lineNum) => {
-        const dataPoints = (value as ChartYData).values.map((val, index) => {
+      const yValuesChartYDataArray: ChartYData[] = yValues as ChartYData[];
+
+      datasets = yValuesChartYDataArray.map((value, lineNum) => {
+        const dataPoints = value.values.map((val, index) => {
           return {
             x: xValues[index],
             y: val,
           };
         });
+
+        let colorToUse: string;
+        if (Array.isArray(value.color)) {
+          colorToUse = value.color[0];
+        } else {
+          colorToUse = value.color ?? 'rgba(0,0,0,1)';
+        }
+
         this.logger?.trace(
-          `XYLineChart.setChartProperties: ${lineNum}th yValues.length: ${(value as ChartYData).values.length}`,
+          `XYLineChart.setChartProperties: ${lineNum}th yValues.length: ${value.values.length}`,
         );
         return {
           data: dataPoints,
-          label: (value as ChartYData).label ?? `line ${lineNum + 1}`,
+          label: value.label ?? `line ${lineNum + 1}`,
           showLine: true,
-          backgroundColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
-          borderColor: (value as ChartYData).color ?? 'rgba(0,0,0,1)',
+          backgroundColor: colorToUse,
+          borderColor: colorToUse,
           borderWidth: 3,
           pointRadius: 1,
         };
       });
     }
+
     const chartProperties: any = {
       type: 'scatter',
       data: {

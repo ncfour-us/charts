@@ -12,6 +12,12 @@ Type for the vector of values to be plotted on the Y axis.
 
 color for the data points/line, defaults to 'rgba(0,0,0,1)' (black)
 
+For XY-Line and Bar charts, only a single value is used.  If an array
+is passed, the value at array index 0 is used.
+
+For Donut and Pie charts, an array of values is used, in order,
+for the colors of the slices of the Donut/Pie.
+
 ***
 
 ### group?

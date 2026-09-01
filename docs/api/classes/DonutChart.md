@@ -16,11 +16,15 @@ Multiple Y value sets can be provided resulting in concentric stripes.
 
 > **new DonutChart**(`options`): `DonutChart`
 
+Creates a new DonutChart instance.
+
 #### Parameters
 
 ##### options
 
 [`DonutChartOptions`](../interfaces/DonutChartOptions.md)
+
+the set of options to specify for the chart.
 
 #### Returns
 
@@ -87,7 +91,7 @@ If embedding into an HTML document, just use the returned Buffer.  For example:
 
 a Buffer containing an HTML &lt;div&gt; with embedded JavaScript &lt;script&gt;.
 
-#### Inherited from
+#### Overrides
 
 [`Chart`](Chart.md).[`getHtmlBuffer`](Chart.md#gethtmlbuffer)
 
@@ -100,6 +104,9 @@ a Buffer containing an HTML &lt;div&gt; with embedded JavaScript &lt;script&gt;.
 Generate a JPEG of the chart.
 
 Use Buffer.toString('base64') to get a usable string.
+
+NOTE: if the backgroundColor for the chart is set to 'rgb&lbrack;a&rbrack;(*,*,*,0)' (transparent)
+then the background will be set to 'rgba(255,255,255,1)' (white).
 
 If embedding into an HTML document, prepend the Base-64 encoded string with
 'data:image/jpeg;base64,'.  For example:
