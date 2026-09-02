@@ -1,7 +1,5 @@
 // Copyright (c) 2026 Tim Hahn
 
-import { writeFile } from 'node:fs/promises';
-
 import { ILogger } from '@ncfour-us/logging';
 
 import {
@@ -21,6 +19,10 @@ import {
 } from 'chart.js';
 
 import { Canvas } from 'skia-canvas';
+
+// This import needs to be done dynamically to allow for mocking the writeFile
+// function in Jest unit tests.
+const { writeFile } = await import('node:fs/promises');
 
 ChartJS.register([
   Title,

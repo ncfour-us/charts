@@ -1,16 +1,38 @@
 // Copyright (c) 2026 Tim Hahn
 
+// import * as fsPromises from 'fs/promises';
 import { test, expect, describe, jest } from '@jest/globals';
 
 import { Logger } from '@ncfour-us/logging';
-import { Chart, ChartYData, XYLineChart, BarChart, PieChart, DonutChart } from '@ncfour-us/charts';
+import type { ChartYData } from '@ncfour-us/charts';
 
-// getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
-jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+const fsP = jest.requireActual<typeof import('node:fs/promises')>('node:fs/promises');
+
+// Mock the node:fs/promises module
+jest.unstable_mockModule('node:fs/promises', () => ({
+  // __esModule: true,
+  ...fsP,
+  writeFile: jest.fn((_path: string, _buffer: string) => {}),
+}));
+
+// These imports need to be done dynamically in order to allow for mocking the writeFile
+// function in unit tests.
+//
+// Also, the import MUST come after the jest.unstable_mockModule() call above.
+//
+const { writeFile } = await import('node:fs/promises');
+
+const { XYLineChart, BarChart, PieChart, DonutChart } = await import('@ncfour-us/charts');
+
+const logger = Logger.createLogger('simple', {
+  json: false,
+  color: true,
+  level: 'warn',
+});
 
 describe('XYLineChart tests', () => {
   test('XY Line chart, single set of y values - PNG', async () => {
-    const myChart: Chart = new XYLineChart({
+    const myChart = new XYLineChart({
       title: 'My Chart Title',
       xAxisTitle: 'My X Axis label',
       yAxisTitle: 'My Y Axis label',
@@ -80,6 +102,9 @@ describe('XYLineChart tests', () => {
   });
 
   test('XY Line chart, double set of y values - HTML', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+
     const myChart = new XYLineChart({
       title: 'My Chart Title',
       xAxisTitle: 'My X Axis label',
@@ -96,11 +121,54 @@ describe('XYLineChart tests', () => {
     const testBuffer = await myChart.getHtmlBuffer();
 
     expect(testBuffer.toString()).toMatchSnapshot();
+
+    mockRandom.mockRestore();
+  });
+
+  test('should mock writeFile directly', async () => {
+    // 2. Define the mocked resolution value
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    // 3. Execute
+    await writeFile('bar.txt', 'OUCH');
+
+    // 4. Assertions
+    expect(writeFile).toHaveBeenCalledTimes(1);
+  });
+
+  test('XYLineChart, writePng, calls writeFile with pngBuffer', async () => {
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.png';
+    const myChart = new XYLineChart({
+      title: 'My Chart Title',
+      xAxisTitle: 'My X Axis label',
+      yAxisTitle: 'My Y Axis label',
+    });
+
+    const xVals: number[] = [1, 2, 3, 4];
+    const yVals: ChartYData[] = [
+      { values: [2, 3, 4, 5] },
+      { values: [5, 7, 9, 11], label: 'line 2 label' },
+    ];
+
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    await myChart.writePng(xVals, yVals, fileName);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, testBuffer);
+
+    // mockWriteFile.mockRestore();
   });
 });
 
 describe('BarChart tests', () => {
   test('Simple Bar chart HTML, numeric X, Y values', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+
     const myChart = new BarChart({
       title: 'Chart Title',
       xAxisTitle: 'X Axis title',
@@ -117,6 +185,8 @@ describe('BarChart tests', () => {
     const testBuffer = await myChart.getHtmlBuffer();
 
     expect(testBuffer.toString()).toMatchSnapshot();
+
+    mockRandom.mockRestore();
   });
 
   test('Simple Bar chart PNG, text X, numeric Y values', async () => {
@@ -178,12 +248,6 @@ describe('BarChart tests', () => {
 });
 
 describe('DonutChart tests', () => {
-  const logger = Logger.createLogger('simple', {
-    json: false,
-    color: true,
-    level: 'trace',
-  });
-
   test('Donut Chart, one set of values, PNG', async () => {
     const myChart = new DonutChart({
       title: 'Chart Title',
@@ -249,6 +313,9 @@ describe('PieChart tests', () => {
   });
 
   test('Pie Chart, two sets of values, HTML', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+
     const myChart = new PieChart({
       title: 'Chart Title',
       xAxisTitle: 'X Axis title',
@@ -274,5 +341,7 @@ describe('PieChart tests', () => {
     const testBuffer = await myChart.getHtmlBuffer();
 
     expect(testBuffer.toString()).toMatchSnapshot();
+
+    mockRandom.mockRestore();
   });
 });
