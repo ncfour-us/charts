@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Tim Hahn
 
 // import * as fsPromises from 'fs/promises';
-import { test, expect, describe, jest } from '@jest/globals';
+import { test, expect, describe, jest, beforeEach } from '@jest/globals';
 
 import { Logger } from '@ncfour-us/logging';
 import type { ChartYData } from '@ncfour-us/charts';
@@ -27,19 +27,28 @@ const { XYLineChart, BarChart, PieChart, DonutChart } = await import('@ncfour-us
 const logger = Logger.createLogger('simple', {
   json: false,
   color: true,
-  level: 'warn',
+  level: 'error',
 });
 
 describe('XYLineChart tests', () => {
-  test('XY Line chart, single set of y values - PNG', async () => {
-    const myChart = new XYLineChart({
+  let myChart: InstanceType<typeof XYLineChart>;
+  let xVals: number[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new XYLineChart({
       title: 'My Chart Title',
       xAxisTitle: 'My X Axis label',
       yAxisTitle: 'My Y Axis label',
+      logger: logger,
     });
 
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData = { values: [2, 3, 4, 5] };
+    xVals = [1, 2, 3, 4];
+    yVals = [{ values: [2, 3, 4, 5] }, { values: [5, 7, 9, 11], label: 'line 2 label' }];
+  });
+
+  test('XY Line chart, single set of y values - PNG', async () => {
+    yVals = { values: [2, 3, 4, 5] };
 
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getPngBuffer();
@@ -48,14 +57,7 @@ describe('XYLineChart tests', () => {
   });
 
   test('XY Line chart, single set of y values in an array - JPEG', async () => {
-    const myChart = new XYLineChart({
-      title: 'My Chart Title',
-      xAxisTitle: 'My X Axis label',
-      yAxisTitle: 'My Y Axis label',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [{ values: [2, 3, 4, 5] }];
+    yVals = [{ values: [2, 3, 4, 5] }];
 
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getJpegBuffer();
@@ -64,18 +66,6 @@ describe('XYLineChart tests', () => {
   });
 
   test('XY Line chart, double set of y values - PNG', async () => {
-    const myChart = new XYLineChart({
-      title: 'My Chart Title',
-      xAxisTitle: 'My X Axis label',
-      yAxisTitle: 'My Y Axis label',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'line 2 label' },
-    ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getPngBuffer();
 
@@ -83,39 +73,15 @@ describe('XYLineChart tests', () => {
   });
 
   test('XY Line chart, double set of y values - SVG', async () => {
-    const myChart = new XYLineChart({
-      title: 'My Chart Title',
-      xAxisTitle: 'My X Axis label',
-      yAxisTitle: 'My Y Axis label',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'line 2 label' },
-    ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getSvgBuffer();
 
-    expect(testBuffer.toString('base64')).toMatchSnapshot();
+    expect(testBuffer.toString('utf8')).toMatchSnapshot();
   });
 
   test('XY Line chart, double set of y values - HTML', async () => {
     // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
     const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
-
-    const myChart = new XYLineChart({
-      title: 'My Chart Title',
-      xAxisTitle: 'My X Axis label',
-      yAxisTitle: 'My Y Axis label',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'line 2 label' },
-    ];
 
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getHtmlBuffer();
@@ -137,21 +103,10 @@ describe('XYLineChart tests', () => {
   });
 
   test('XYLineChart, writePng, calls writeFile with pngBuffer', async () => {
+    const loggerWarn = jest.spyOn(logger, 'warn');
     jest.mocked(writeFile).mockResolvedValue(undefined);
 
     const fileName = 'testfile.png';
-    const myChart = new XYLineChart({
-      title: 'My Chart Title',
-      xAxisTitle: 'My X Axis label',
-      yAxisTitle: 'My Y Axis label',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'line 2 label' },
-    ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getPngBuffer();
 
@@ -159,28 +114,34 @@ describe('XYLineChart tests', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(1);
     expect(writeFile).toHaveBeenCalledWith(fileName, testBuffer);
+    expect(loggerWarn).toHaveBeenCalledTimes(1);
 
-    // mockWriteFile.mockRestore();
+    loggerWarn.mockRestore();
   });
 });
 
 describe('BarChart tests', () => {
+  let myChart: InstanceType<typeof BarChart>;
+  let xVals: number[] | string[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new BarChart({
+      title: 'Chart Title',
+      xAxisTitle: 'X Axis title',
+      yAxisTitle: 'Y Axis title',
+      logger: logger,
+    });
+
+    xVals = ['category 1', 'category 2', 'category 3', 'category 4'];
+    yVals = [{ values: [2, 3, 4, 5] }, { values: [5, 7, 9, 11], label: 'bar 2 label' }];
+  });
+
   test('Simple Bar chart HTML, numeric X, Y values', async () => {
     // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
     const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
 
-    const myChart = new BarChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: number[] = [1, 2, 3, 4];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'bar 2 label' },
-    ];
-
+    xVals = [1, 2, 3, 4];
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getHtmlBuffer();
 
@@ -190,18 +151,6 @@ describe('BarChart tests', () => {
   });
 
   test('Simple Bar chart PNG, text X, numeric Y values', async () => {
-    const myChart = new BarChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: string[] = ['category 1', 'category 2', 'category 3', 'category 4'];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5] },
-      { values: [5, 7, 9, 11], label: 'bar 2 label' },
-    ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getPngBuffer();
 
@@ -209,18 +158,10 @@ describe('BarChart tests', () => {
   });
 
   test('Simple Bar chart JPEG, text X, numeric Y values, side-by-side', async () => {
-    const myChart = new BarChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: string[] = ['category 1', 'category 2', 'category 3', 'category 4'];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5], group: 'first-group' },
+    yVals = [
+      { values: [2, 3, 4, 5] },
       { values: [5, 7, 9, 11], label: 'bar 2 label', group: 'second-group' },
     ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getJpegBuffer();
 
@@ -228,18 +169,6 @@ describe('BarChart tests', () => {
   });
 
   test('Simple Bar chart SVG, text X, numeric Y values, side-by-side', async () => {
-    const myChart = new BarChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: string[] = ['category 1', 'category 2', 'category 3', 'category 4'];
-    const yVals: ChartYData[] = [
-      { values: [2, 3, 4, 5], group: 'first-group' },
-      { values: [5, 7, 9, 11], label: 'bar 2 label', group: 'second-group' },
-    ];
-
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getSvgBuffer();
 
@@ -248,32 +177,19 @@ describe('BarChart tests', () => {
 });
 
 describe('DonutChart tests', () => {
-  test('Donut Chart, one set of values, PNG', async () => {
-    const myChart = new DonutChart({
+  let myChart: InstanceType<typeof DonutChart>;
+  let xVals: number[] | string[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new DonutChart({
       title: 'Chart Title',
       xAxisTitle: 'X Axis title',
       yAxisTitle: 'Y Axis title',
-
       logger: logger,
     });
 
-    const xVals: string[] = ['slice 1', 'slice 2', 'slice 3', 'slice 4'];
-    const yVals: ChartYData = { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' };
-
-    myChart.setChartData(xVals, yVals);
-    const testBuffer = await myChart.getPngBuffer();
-
-    expect(testBuffer.toString('base64')).toMatchSnapshot();
-  });
-
-  test('Donut Chart, two sets of values, JPEG', async () => {
-    const myChart = new DonutChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: string[] = [
+    xVals = [
       'slice 0:1',
       'slice 0:2',
       'slice 0:3',
@@ -283,11 +199,22 @@ describe('DonutChart tests', () => {
       'slice 1:3',
       'slice 1:4',
     ];
-    const yVals: ChartYData[] = [
+    yVals = [
       { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' },
       { values: [2, 3, 4, 5], group: 'second-group' },
     ];
+  });
 
+  test('Donut Chart, one set of values, PNG', async () => {
+    xVals = ['slice 1', 'slice 2', 'slice 3', 'slice 4'];
+    yVals = { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' };
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
+  test('Donut Chart, two sets of values, JPEG', async () => {
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getJpegBuffer();
 
@@ -296,33 +223,19 @@ describe('DonutChart tests', () => {
 });
 
 describe('PieChart tests', () => {
-  test('Pie Chart, one set of values, SVG', async () => {
-    const myChart = new PieChart({
+  let myChart: InstanceType<typeof PieChart>;
+  let xVals: number[] | string[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new PieChart({
       title: 'Chart Title',
       xAxisTitle: 'X Axis title',
       yAxisTitle: 'Y Axis title',
+      logger: logger,
     });
 
-    const xVals: string[] = ['slice 1', 'slice 2', 'slice 3', 'slice 4'];
-    const yVals: ChartYData = { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' };
-
-    myChart.setChartData(xVals, yVals);
-    const testBuffer = await myChart.getSvgBuffer();
-
-    expect(testBuffer.toString('base64')).toMatchSnapshot();
-  });
-
-  test('Pie Chart, two sets of values, HTML', async () => {
-    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
-    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
-
-    const myChart = new PieChart({
-      title: 'Chart Title',
-      xAxisTitle: 'X Axis title',
-      yAxisTitle: 'Y Axis title',
-    });
-
-    const xVals: string[] = [
+    xVals = [
       'slice 0:1',
       'slice 0:2',
       'slice 0:3',
@@ -332,10 +245,25 @@ describe('PieChart tests', () => {
       'slice 1:3',
       'slice 1:4',
     ];
-    const yVals: ChartYData[] = [
+    yVals = [
       { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' },
       { values: [2, 3, 4, 5], group: 'second-group' },
     ];
+  });
+
+  test('Pie Chart, one set of values, SVG', async () => {
+    xVals = ['slice 1', 'slice 2', 'slice 3', 'slice 4'];
+    yVals = { values: [2, 3, 4, 5], label: 'first-set', group: 'first-group' };
+
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getSvgBuffer();
+
+    expect(testBuffer.toString('utf8')).toMatchSnapshot();
+  });
+
+  test('Pie Chart, two sets of values, HTML', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
 
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getHtmlBuffer();

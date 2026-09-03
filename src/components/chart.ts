@@ -197,6 +197,7 @@ export abstract class Chart {
     yValues: ChartYData | ChartYData[],
     fileName: string,
   ): Promise<void> {
+    this.logger?.warn('Chart.writePng() is Deprecated');
     this.setChartData(xValues, yValues);
     const pngBuffer: Buffer = await this.getPngBuffer();
     return writeFile(fileName, pngBuffer);
@@ -274,6 +275,7 @@ export abstract class Chart {
     yValues: ChartYData | ChartYData[],
     fileName: string,
   ): Promise<void> {
+    this.logger?.warn('Chart.writeJpeg() is Deprecated');
     this.setChartData(xValues, yValues);
     const jpegBuffer: Buffer = await this.getJpegBuffer();
     return writeFile(fileName, jpegBuffer);
@@ -337,6 +339,7 @@ export abstract class Chart {
     yValues: ChartYData | ChartYData[],
     fileName: string,
   ): Promise<void> {
+    this.logger?.warn('Chart.writeSvg() is Deprecated');
     this.setChartData(xValues, yValues);
     const svgBuffer: Buffer = await this.getSvgBuffer();
     return writeFile(fileName, svgBuffer);
@@ -417,6 +420,7 @@ export abstract class Chart {
     yValues: ChartYData | ChartYData[],
     fileName: string,
   ): Promise<void> {
+    this.logger?.warn('Chart.writeHtml() is Deprecated');
     this.setChartData(xValues, yValues);
 
     const htmlDivBuffer = await this.getHtmlBuffer();
