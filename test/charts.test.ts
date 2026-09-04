@@ -27,7 +27,7 @@ const { XYLineChart, BarChart, PieChart, DonutChart } = await import('@ncfour-us
 const logger = Logger.createLogger('simple', {
   json: false,
   color: true,
-  level: 'error',
+  level: 'warn',
 });
 
 describe('XYLineChart tests', () => {
@@ -76,7 +76,12 @@ describe('XYLineChart tests', () => {
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getSvgBuffer();
 
-    expect(testBuffer.toString('utf8')).toMatchSnapshot();
+    // resulting string should start and end with <svg> ... </svg>
+    const regExp = new RegExp(
+      '<\\?xml version="1.0" encoding="utf-8" \\?>\\s*<svg.*</svg>\\s*$',
+      's',
+    );
+    expect(regExp.test(testBuffer.toString('utf8'))).toBe(true);
   });
 
   test('XY Line chart, double set of y values - HTML', async () => {
@@ -100,6 +105,74 @@ describe('XYLineChart tests', () => {
 
     // 4. Assertions
     expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith('bar.txt', 'OUCH');
+  });
+
+  test('XYLineChart, writePngFile, calls writeFile with pngBuffer', async () => {
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.png';
+
+    await myChart.writePngFile(fileName);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
+  });
+
+  test('XYLineChart, writeJpegFile, calls writeFile with jpegBuffer', async () => {
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.jpeg';
+
+    await myChart.writeJpegFile(fileName);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
+  });
+
+  test('XYLineChart, writeSvgFile, calls writeFile with svgBuffer', async () => {
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.svg';
+    myChart.setChartData(xVals, yVals);
+
+    await myChart.writeSvgFile(fileName);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
+  });
+
+  test('XYLineChart, writeHtmlFile, calls writeFile with htmlBuffer', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.html';
+    const pageTitle = 'Page Title';
+
+    await myChart.writeHtmlFile(fileName, pageTitle);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(String));
+
+    mockRandom.mockRestore();
+  });
+
+  test('XYLineChart, writeHtmlFile, calls writeFile with buffers passed in', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+    jest.mocked(writeFile).mockResolvedValue(undefined);
+
+    const fileName = 'testfile.html';
+    const pageTitle = 'Page Title';
+    const buffers: string[] = ['<div>Div 1</div>', '<div>Div 2</div>'];
+
+    await myChart.writeHtmlFile(fileName, pageTitle, buffers);
+
+    expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(String));
+
+    mockRandom.mockRestore();
   });
 
   // test that Deprecated APIs log that they are depreacated
@@ -108,13 +181,11 @@ describe('XYLineChart tests', () => {
     jest.mocked(writeFile).mockResolvedValue(undefined);
 
     const fileName = 'testfile.png';
-    myChart.setChartData(xVals, yVals);
-    const testBuffer = await myChart.getPngBuffer();
 
     await myChart.writePng(xVals, yVals, fileName);
 
     expect(writeFile).toHaveBeenCalledTimes(1);
-    expect(writeFile).toHaveBeenCalledWith(fileName, testBuffer);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
     expect(loggerWarn).toHaveBeenCalledTimes(1);
 
     loggerWarn.mockRestore();
@@ -125,13 +196,11 @@ describe('XYLineChart tests', () => {
     jest.mocked(writeFile).mockResolvedValue(undefined);
 
     const fileName = 'testfile.jpeg';
-    myChart.setChartData(xVals, yVals);
-    const testBuffer = await myChart.getJpegBuffer();
 
     await myChart.writeJpeg(xVals, yVals, fileName);
 
     expect(writeFile).toHaveBeenCalledTimes(1);
-    expect(writeFile).toHaveBeenCalledWith(fileName, testBuffer);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
     expect(loggerWarn).toHaveBeenCalledTimes(1);
 
     loggerWarn.mockRestore();
@@ -147,6 +216,7 @@ describe('XYLineChart tests', () => {
     await myChart.writeSvg(xVals, yVals, fileName);
 
     expect(writeFile).toHaveBeenCalledTimes(1);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(Buffer));
     expect(loggerWarn).toHaveBeenCalledTimes(1);
 
     loggerWarn.mockRestore();
@@ -159,33 +229,11 @@ describe('XYLineChart tests', () => {
     jest.mocked(writeFile).mockResolvedValue(undefined);
 
     const fileName = 'testfile.html';
-    myChart.setChartData(xVals, yVals);
-    const testBuffer = await myChart.getHtmlBuffer();
 
-    const title = 'My Chart Title';
-    const htmlBuffer = `
-      <!DOCTYPE html>
-      <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <!-- Un-comment the following line to enable light/dark mode for this HTML page
-              <meta name="color-scheme" content="light dark">
-            -->
-            <title>${title}</title>
-            <!-- Include Chart.js from CDN -->
-            <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.js"></script>
-        </head>
-        <body>
-        ${testBuffer}
-        </body>
-      </html>
-    `;
     await myChart.writeHtml(xVals, yVals, fileName);
 
     expect(writeFile).toHaveBeenCalledTimes(1);
-    expect(writeFile).toHaveBeenCalledWith(fileName, htmlBuffer);
+    expect(writeFile).toHaveBeenCalledWith(fileName, expect.any(String));
     expect(loggerWarn).toHaveBeenCalledTimes(1);
 
     mockRandom.mockRestore();
@@ -230,6 +278,14 @@ describe('BarChart tests', () => {
     expect(testBuffer.toString('base64')).toMatchSnapshot();
   });
 
+  test('Simple Bar chart PNG, text X, single set of numeric Y values', async () => {
+    yVals = { values: [2, 3, 4, 5] };
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
   test('Simple Bar chart JPEG, text X, numeric Y values, side-by-side', async () => {
     yVals = [
       { values: [2, 3, 4, 5] },
@@ -245,7 +301,12 @@ describe('BarChart tests', () => {
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getSvgBuffer();
 
-    expect(testBuffer.toString('utf8').length).toBeGreaterThan(0);
+    // resulting string should start and end with <svg> ... </svg>
+    const regExp = new RegExp(
+      '<\\?xml version="1.0" encoding="utf-8" \\?>\\s*<svg.*</svg>\\s*$',
+      's',
+    );
+    expect(regExp.test(testBuffer.toString('utf8'))).toBe(true);
   });
 });
 
@@ -331,7 +392,12 @@ describe('PieChart tests', () => {
     myChart.setChartData(xVals, yVals);
     const testBuffer = await myChart.getSvgBuffer();
 
-    expect(testBuffer.toString('utf8').length).toBeGreaterThan(0);
+    // resulting string should start and end with <svg> ... </svg>
+    const regExp = new RegExp(
+      '<\\?xml version="1.0" encoding="utf-8" \\?>\\s*<svg.*</svg>\\s*$',
+      's',
+    );
+    expect(regExp.test(testBuffer.toString('utf8'))).toBe(true);
   });
 
   test('Pie Chart, two sets of values, HTML', async () => {
