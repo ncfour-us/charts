@@ -1,4 +1,14 @@
 
+## [0.0.6](https://github.com/ncfour-us/charts/compare/v0.0.5...v0.0.6) (2026-09-04)
+
+
+### Bug Fixes
+
+* add additional unit tests to get better code coverage and improve unit test techniques for some tests ([c98d6e4](https://github.com/ncfour-us/charts/commit/c98d6e489cd00d369af3ee59e60ef14f3d538ff3))
+* add additional unit tests to test deprecated functions ([0abae73](https://github.com/ncfour-us/charts/commit/0abae73a04bf66886707c3af34f329830c258540))
+* add additional unit tests, including mock for writeFile ([8e7967e](https://github.com/ncfour-us/charts/commit/8e7967e893bd47876f5fbf44e62d8bb56e90ea3f))
+* re-factor chart tests to use beforeEach(), fix SVG snapshot format ([bed5267](https://github.com/ncfour-us/charts/commit/bed5267c0ac0511f38225f947769686866e6efdd))
+
 ## [0.0.5](https://github.com/ncfour-us/charts/compare/v0.0.4...v0.0.5) (2026-09-01)
 
 
