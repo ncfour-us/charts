@@ -16,6 +16,7 @@ import {
   LineElement,
   PointElement,
   ArcElement,
+  Filler,
 } from 'chart.js';
 
 import { Canvas } from 'skia-canvas';
@@ -37,6 +38,7 @@ ChartJS.register([
   LinearScale,
   PointElement,
   ArcElement,
+  Filler,
 ]);
 
 /**
@@ -108,6 +110,12 @@ export interface ChartYData {
    * for the colors of the slices of the Donut/Pie.
    */
   color?: string | string[];
+
+  /**
+   * color for the fill area in bar/stackedcharts, defaults to 'rgba(100,100,100,0.5)' (transparent grey)
+   *
+   */
+  fillColor?: string;
 
   /**
    * if multiple Y values are to be stacked or grouped, this string is

@@ -8,6 +8,7 @@ Options for any chart
 
 - [`ChartParms`](ChartParms.md)
 - [`XYLineChartOptions`](XYLineChartOptions.md)
+- [`StackedLineChartOptions`](StackedLineChartOptions.md)
 - [`BarChartOptions`](BarChartOptions.md)
 - [`DonutChartOptions`](DonutChartOptions.md)
 

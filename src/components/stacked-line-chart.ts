@@ -3,9 +3,9 @@
 import { Chart, ChartOptions, ChartXData, ChartYData } from './chart.js';
 
 /**
- * Chart options specific to Box charts
+ * Chart options specific to Stacked Line charts
  */
-export interface BarChartOptions extends ChartOptions {
+export interface StackedLineChartOptions extends ChartOptions {
   /**
    * X Axis title, defaults to 'X Axis Title'
    */
@@ -18,22 +18,22 @@ export interface BarChartOptions extends ChartOptions {
 }
 
 /**
- * Create a Bar chart with stacked bars corresponding to the Y values.
+ * Create a stacked line chart with the supplied datasets.
  *
- * Multiple Y value sets can be provided resulting in side-by-side
- * stacks of bars.  Group Y values into each stack by using the same
- * group value for the ChartYData information.
+ * Multiple Y value sets can be provided resulting in multiple lines
+ * being drawn on the plot.  Lines are stacked in the order that they are
+ * provided in the dataset.
  */
-export class BarChart extends Chart {
+export class StackedLineChart extends Chart {
   private xAxisTitle?: string;
   private yAxisTitle?: string;
 
   /**
-   * Creates a new BarChart instance.
+   * Creates a new StackedLineChart instance.
    *
    * @param options the set of options to specify for the chart.
    */
-  constructor(options: BarChartOptions) {
+  constructor(options: StackedLineChartOptions) {
     super(options);
 
     this.xAxisTitle = options.xAxisTitle ?? 'X Axis Title';
@@ -43,7 +43,7 @@ export class BarChart extends Chart {
   private setChartProperties(xValues: ChartXData, yValues: ChartYData | ChartYData[]): any {
     let isArray: boolean = false;
 
-    this.logger?.trace(`BarChart.setChartProperties: xValues.length: ${xValues.length}`);
+    this.logger?.trace(`StackedLineChart.setChartProperties: xValues.length: ${xValues.length}`);
 
     if (Array.isArray(yValues)) {
       isArray = true;
@@ -54,7 +54,7 @@ export class BarChart extends Chart {
     if (!isArray) {
       const yValuesChartYData: ChartYData = yValues as ChartYData;
 
-      const dataPoints = Array.from(yValuesChartYData.values);
+      const dataPoints = yValuesChartYData.values.map((val) => val);
 
       let colorToUse: string;
       if (Array.isArray(yValuesChartYData.color)) {
@@ -63,27 +63,28 @@ export class BarChart extends Chart {
         colorToUse = yValuesChartYData.color ?? 'rgba(0,0,0,1)';
       }
 
-      const fillColorToUse = yValuesChartYData.fillColor ?? colorToUse;
+      const fillColorToUse = yValuesChartYData.fillColor ?? 'rgba(100,100,100,0.5)';
 
       datasets = [
         {
           data: dataPoints,
-          label: yValuesChartYData.label ?? 'bar 1',
+          label: yValuesChartYData.label ?? 'line 1',
           showLine: true,
           backgroundColor: fillColorToUse,
           borderColor: colorToUse,
+          fill: 'stack',
           borderWidth: 3,
-          stack: yValuesChartYData.group ?? undefined,
+          pointRadius: 1,
         },
       ];
       this.logger?.trace(
-        `BarChart.setChartProperties: single yValues.length: ${yValuesChartYData.values.length}`,
+        `StackedLineChart.setChartProperties: single yValues.length: ${yValuesChartYData.values.length}`,
       );
     } else {
       const yValuesChartYDataArray: ChartYData[] = yValues as ChartYData[];
 
       datasets = yValuesChartYDataArray.map((value, lineNum) => {
-        const dataPoints = Array.from(value.values);
+        const dataPoints = value.values.map((val) => val);
 
         let colorToUse: string;
         if (Array.isArray(value.color)) {
@@ -92,25 +93,26 @@ export class BarChart extends Chart {
           colorToUse = value.color ?? 'rgba(0,0,0,1)';
         }
 
-        const fillColorToUse = value.fillColor ?? colorToUse;
+        const fillColorToUse = value.fillColor ?? 'rgba(100,100,100,0.5)';
 
         this.logger?.trace(
-          `BarChart.setChartProperties: ${lineNum}th yValues.length: ${value.values.length}`,
+          `StackedLineChart.setChartProperties: ${lineNum}th yValues.length: ${value.values.length}`,
         );
         return {
           data: dataPoints,
-          label: value.label ?? `bar ${lineNum + 1}`,
+          label: value.label ?? `line ${lineNum + 1}`,
           showLine: true,
           backgroundColor: fillColorToUse,
           borderColor: colorToUse,
+          fill: 'stack',
           borderWidth: 3,
-          stack: value.group ?? undefined,
+          pointRadius: 1,
         };
       });
     }
 
     const chartProperties: any = {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: xValues.map((value) => value),
         datasets: datasets,
@@ -128,6 +130,9 @@ export class BarChart extends Chart {
             },
             position: 'right',
           },
+          filler: {
+            propagate: false,
+          },
         },
         scales: {
           x: {
@@ -135,7 +140,6 @@ export class BarChart extends Chart {
               display: true,
               text: this.xAxisTitle,
             },
-            stacked: true,
           },
           y: {
             title: {
@@ -152,10 +156,14 @@ export class BarChart extends Chart {
   }
 
   /**
-   * Specify the data points for an XY Line chart.
+   * Specify the data points for an Stacked Line chart.
    *
-   * Using this method allows for re-using the XY Line chart title(s) and
+   * Using this method allows for re-using the Stacked Line chart title(s) and
    * any other settings while plotting different data.
+   *
+   * The color option for the yValue represents the line/point color
+   * while the fillColor option for the yValue represents the area fill color
+   * between stacked lines.
    *
    * If labels are NOT provided for the yValues, then the label
    * will be set to 'Line &lt;num&gt;' where num is 1, 2, ....

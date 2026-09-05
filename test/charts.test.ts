@@ -22,7 +22,8 @@ jest.unstable_mockModule('node:fs/promises', () => ({
 //
 const { writeFile } = await import('node:fs/promises');
 
-const { XYLineChart, BarChart, PieChart, DonutChart } = await import('@ncfour-us/charts');
+const { XYLineChart, StackedLineChart, BarChart, PieChart, DonutChart } =
+  await import('@ncfour-us/charts');
 
 const logger = Logger.createLogger('simple', {
   json: false,
@@ -410,5 +411,47 @@ describe('PieChart tests', () => {
     expect(testBuffer.toString()).toMatchSnapshot();
 
     mockRandom.mockRestore();
+  });
+});
+
+describe('StackedLineChart tests', () => {
+  let myChart: InstanceType<typeof StackedLineChart>;
+  let xVals: number[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new StackedLineChart({
+      title: 'My Chart Title',
+      xAxisTitle: 'My X Axis label',
+      yAxisTitle: 'My Y Axis label',
+      logger: logger,
+    });
+
+    xVals = [1, 2, 3, 4];
+    yVals = [
+      { values: [2, 3, 4, 5], color: 'rgba(255,0,0,1)', fillColor: 'rgba(255,0,0,0.5)' },
+      {
+        values: [5, 7, 9, 11],
+        label: 'line 2 label',
+        color: 'rgba(0,255,0,1)',
+        fillColor: 'rgba(0,255,0,0.5)',
+      },
+    ];
+  });
+
+  test('Stacked Line chart, single set of y values - PNG', async () => {
+    yVals = { values: [2, 3, 4, 5], color: 'rgba(255,0,0,1)', fillColor: 'rgba(255,0,0,0.5)' };
+
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
+  test('Stacked Line chart, two sets of y values - JPEG', async () => {
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getJpegBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
   });
 });

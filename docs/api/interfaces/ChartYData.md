@@ -20,6 +20,14 @@ for the colors of the slices of the Donut/Pie.
 
 ***
 
+### fillColor?
+
+> `optional` **fillColor?**: `string`
+
+color for the fill area in bar/stackedcharts, defaults to 'rgba(100,100,100,0.5)' (transparent grey)
+
+***
+
 ### group?
 
 > `optional` **group?**: `string`

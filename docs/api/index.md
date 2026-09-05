@@ -6,6 +6,7 @@
 - [Chart](classes/Chart.md)
 - [DonutChart](classes/DonutChart.md)
 - [PieChart](classes/PieChart.md)
+- [StackedLineChart](classes/StackedLineChart.md)
 - [XYLineChart](classes/XYLineChart.md)
 
 ## Interfaces
@@ -15,6 +16,7 @@
 - [~~ChartParms~~](interfaces/ChartParms.md)
 - [ChartYData](interfaces/ChartYData.md)
 - [DonutChartOptions](interfaces/DonutChartOptions.md)
+- [StackedLineChartOptions](interfaces/StackedLineChartOptions.md)
 - [XYLineChartOptions](interfaces/XYLineChartOptions.md)
 
 ## Type Aliases
