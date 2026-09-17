@@ -1,4 +1,11 @@
 
+## [0.0.10](https://github.com/ncfour-us/charts/compare/v0.0.9...v0.0.10) (2026-09-17)
+
+
+### Features
+
+* implement HistogramChart ([6c426fa](https://github.com/ncfour-us/charts/commit/6c426fa4cce6a64228df8fea90b8b84f8b3ee065))
+
 ## [0.0.9](https://github.com/ncfour-us/charts/compare/v0.0.8...v0.0.9) (2026-09-05)
 
 ## [0.0.8](https://github.com/ncfour-us/charts/compare/v0.0.7...v0.0.8) (2026-09-05)
