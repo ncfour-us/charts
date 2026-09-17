@@ -5,6 +5,7 @@
 - [BarChart](classes/BarChart.md)
 - [Chart](classes/Chart.md)
 - [DonutChart](classes/DonutChart.md)
+- [HistogramChart](classes/HistogramChart.md)
 - [PieChart](classes/PieChart.md)
 - [StackedLineChart](classes/StackedLineChart.md)
 - [XYLineChart](classes/XYLineChart.md)
@@ -16,6 +17,7 @@
 - [~~ChartParms~~](interfaces/ChartParms.md)
 - [ChartYData](interfaces/ChartYData.md)
 - [DonutChartOptions](interfaces/DonutChartOptions.md)
+- [HistogramChartOptions](interfaces/HistogramChartOptions.md)
 - [StackedLineChartOptions](interfaces/StackedLineChartOptions.md)
 - [XYLineChartOptions](interfaces/XYLineChartOptions.md)
 

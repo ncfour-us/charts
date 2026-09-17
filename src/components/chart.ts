@@ -19,6 +19,8 @@ import {
   Filler,
 } from 'chart.js';
 
+// import annotationPlugin from 'chartjs-plugin-annotation';
+
 import { Canvas } from 'skia-canvas';
 
 // This import needs to be done dynamically to allow for mocking the writeFile
@@ -39,6 +41,7 @@ ChartJS.register([
   PointElement,
   ArcElement,
   Filler,
+  // annotationPlugin,
 ]);
 
 /**

@@ -22,7 +22,7 @@ jest.unstable_mockModule('node:fs/promises', () => ({
 //
 const { writeFile } = await import('node:fs/promises');
 
-const { XYLineChart, StackedLineChart, BarChart, PieChart, DonutChart } =
+const { XYLineChart, StackedLineChart, BarChart, PieChart, DonutChart, HistogramChart } =
   await import('@ncfour-us/charts');
 
 const logger = Logger.createLogger('simple', {
@@ -453,5 +453,74 @@ describe('StackedLineChart tests', () => {
     const testBuffer = await myChart.getJpegBuffer();
 
     expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+});
+
+describe('HistogramChart tests', () => {
+  let myChart: InstanceType<typeof HistogramChart>;
+  let xVals: number[] | string[];
+  let yVals: ChartYData | ChartYData[];
+
+  beforeEach(() => {
+    myChart = new HistogramChart({
+      title: 'Chart Title',
+      xAxisTitle: 'X Axis title',
+      yAxisTitle: 'Y Axis title',
+      logger: logger,
+    });
+
+    xVals = ['category 1', 'category 2', 'category 3', 'category 4'];
+    yVals = [{ values: [2, 3, 4, 5] }, { values: [5, 7, 9, 11], label: 'bar 2 label' }];
+  });
+
+  test('Simple Histogram chart HTML, numeric X, Y values', async () => {
+    // getHtmlBuffer() uses Math.random() - mock this function so it returns a deterministic value
+    const mockRandom = jest.spyOn(Math, 'random').mockReturnValue(0.123456789);
+
+    xVals = [1, 2, 3, 4];
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getHtmlBuffer();
+
+    expect(testBuffer.toString()).toMatchSnapshot();
+
+    mockRandom.mockRestore();
+  });
+
+  test('Simple Histogram chart PNG, text X, numeric Y values', async () => {
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
+  test('Simple Histogram chart PNG, text X, single set of numeric Y values', async () => {
+    yVals = { values: [2, 3, 4, 5] };
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getPngBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
+  test('Simple Histogram chart JPEG, text X, numeric Y values, side-by-side', async () => {
+    yVals = [
+      { values: [2, 3, 4, 5] },
+      { values: [5, 7, 9, 11], label: 'bar 2 label', group: 'second-group' },
+    ];
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getJpegBuffer();
+
+    expect(testBuffer.toString('base64')).toMatchSnapshot();
+  });
+
+  test('Simple Histogram chart SVG, text X, numeric Y values, side-by-side', async () => {
+    myChart.setChartData(xVals, yVals);
+    const testBuffer = await myChart.getSvgBuffer();
+
+    // resulting string should start and end with <svg> ... </svg>
+    const regExp = new RegExp(
+      '<\\?xml version="1.0" encoding="utf-8" \\?>\\s*<svg.*</svg>\\s*$',
+      's',
+    );
+    expect(regExp.test(testBuffer.toString('utf8'))).toBe(true);
   });
 });

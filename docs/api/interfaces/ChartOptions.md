@@ -10,6 +10,7 @@ Options for any chart
 - [`XYLineChartOptions`](XYLineChartOptions.md)
 - [`StackedLineChartOptions`](StackedLineChartOptions.md)
 - [`BarChartOptions`](BarChartOptions.md)
+- [`HistogramChartOptions`](HistogramChartOptions.md)
 - [`DonutChartOptions`](DonutChartOptions.md)
 
 ## Properties

@@ -1,39 +1,40 @@
-[@ncfour-us/charts](../index.md) / Chart
+[@ncfour-us/charts](../index.md) / HistogramChart
 
-# Abstract Class: Chart
+# Class: HistogramChart
 
-Base class for various types of charts.
+Create a Bar chart with stacked bars corresponding to the Y values.
 
-This class implements several functions to render the
-charts, while sub-classes are responsible for setting
-up the chart properties for the chart based on the chart
-type selected.
+Multiple Y value sets can be provided resulting in side-by-side
+stacks of bars.  Group Y values into each stack by using the same
+group value for the ChartYData information.
 
-see [XYLineChart](XYLineChart.md).
+## Extends
 
-## Extended by
-
-- [`XYLineChart`](XYLineChart.md)
-- [`StackedLineChart`](StackedLineChart.md)
-- [`BarChart`](BarChart.md)
-- [`HistogramChart`](HistogramChart.md)
-- [`DonutChart`](DonutChart.md)
+- [`Chart`](Chart.md)
 
 ## Constructors
 
 ### Constructor
 
-> **new Chart**(`options`): `Chart`
+> **new HistogramChart**(`options`): `HistogramChart`
+
+Creates a new HistogramChart instance.
 
 #### Parameters
 
 ##### options
 
-[`ChartOptions`](../interfaces/ChartOptions.md)
+[`HistogramChartOptions`](../interfaces/HistogramChartOptions.md)
+
+the set of options to specify for the chart.
 
 #### Returns
 
-`Chart`
+`HistogramChart`
+
+#### Overrides
+
+[`Chart`](Chart.md).[`constructor`](Chart.md#constructor)
 
 ## Properties
 
@@ -41,17 +42,29 @@ see [XYLineChart](XYLineChart.md).
 
 > `protected` **chartProperties**: `any`
 
+#### Inherited from
+
+[`Chart`](Chart.md).[`chartProperties`](Chart.md#chartproperties)
+
 ***
 
 ### logger?
 
 > `protected` `optional` **logger?**: `ILogger`
 
+#### Inherited from
+
+[`Chart`](Chart.md).[`logger`](Chart.md#logger)
+
 ***
 
 ### title
 
 > `protected` **title**: `string`
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`title`](Chart.md#title)
 
 ## Methods
 
@@ -80,6 +93,10 @@ If embedding into an HTML document, just use the returned Buffer.  For example:
 
 a Buffer containing an HTML &lt;div&gt; with embedded JavaScript &lt;script&gt;.
 
+#### Inherited from
+
+[`Chart`](Chart.md).[`getHtmlBuffer`](Chart.md#gethtmlbuffer)
+
 ***
 
 ### getJpegBuffer()
@@ -104,6 +121,10 @@ If embedding into an HTML document, prepend the Base-64 encoded string with
 
 a Buffer containing a rasterized JPEG image of the chart.
 
+#### Inherited from
+
+[`Chart`](Chart.md).[`getJpegBuffer`](Chart.md#getjpegbuffer)
+
 ***
 
 ### getPngBuffer()
@@ -124,6 +145,10 @@ If embedding into an HTML document, prepend the Base-64 encoded string with
 `Promise`\<`Buffer`\<`ArrayBufferLike`\>\>
 
 a Buffer containing a rasterized PNG image of the chart.
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`getPngBuffer`](Chart.md#getpngbuffer)
 
 ***
 
@@ -147,13 +172,23 @@ If embedding into an HTML document, just use the returned Buffer.  For example:
 
 a Buffer containing a SVG rendering of the chart.
 
+#### Inherited from
+
+[`Chart`](Chart.md).[`getSvgBuffer`](Chart.md#getsvgbuffer)
+
 ***
 
 ### setChartData()
 
-> `abstract` **setChartData**(`xValues`, `yValues`): `void`
+> **setChartData**(`xValues`, `yValues`): `void`
 
-Set the chart data points to be rendered in the chart.
+Specify the data points for an Histogram chart.
+
+Using this method allows for re-using the Histogram title(s) and
+any other settings while plotting different data.
+
+If labels are NOT provided for the yValues, then the label
+will be set to 'histogram &lt;num&gt;' where num is 1, 2, ....
 
 #### Parameters
 
@@ -161,13 +196,57 @@ Set the chart data points to be rendered in the chart.
 
 [`ChartXData`](../type-aliases/ChartXData.md)
 
-the X values for the chart (eithet X axis or labels)
+the vector of X values
 
 ##### yValues
 
 [`ChartYData`](../interfaces/ChartYData.md) \| [`ChartYData`](../interfaces/ChartYData.md)[]
 
-the Y values (possibly multiple of them) corresponding to the X values
+the vector(s) of Y values corresponding to the X values
+
+#### Returns
+
+`void`
+
+#### Overrides
+
+[`Chart`](Chart.md).[`setChartData`](Chart.md#setchartdata)
+
+***
+
+### setChartDataWithAnnotations()
+
+> **setChartDataWithAnnotations**(`xValues`, `yValues`, `mean?`, `stddev?`): `void`
+
+Specify the data points for an Histogram chart.
+
+Using this method allows for re-using the Histogram title(s) and
+any other settings while plotting different data.
+
+If labels are NOT provided for the yValues, then the label
+will be set to 'histogram &lt;num&gt;' where num is 1, 2, ....
+
+#### Parameters
+
+##### xValues
+
+[`ChartXData`](../type-aliases/ChartXData.md)
+
+the vector of X values
+
+##### yValues
+
+[`ChartYData`](../interfaces/ChartYData.md) \| [`ChartYData`](../interfaces/ChartYData.md)[]
+
+the vector(s) of Y values corresponding to the X values
+
+##### mean?
+
+`number`
+
+##### stddev?
+
+`number`
 
 #### Returns
 
@@ -203,7 +282,11 @@ a Promise from the writeFile() invocation.
 
 #### Deprecated
 
-Use [setChartData](#setchartdata) and [writeHtmlFile](#writehtmlfile).
+Use [setChartData](Chart.md#setchartdata) and [writeHtmlFile](Chart.md#writehtmlfile).
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeHtml`](Chart.md#writehtml)
 
 ***
 
@@ -233,8 +316,8 @@ optional title for the HTML Page.  If not provided, the
 `string`[]
 
 optional array of HTML buffers to embed into the HTML page
- From, for example, calls to [getHtmlBuffer](#gethtmlbuffer).  If not provided,
- [getHtmlBuffer](#gethtmlbuffer) is called and the result is the only thing embedded
+ From, for example, calls to [getHtmlBuffer](Chart.md#gethtmlbuffer).  If not provided,
+ [getHtmlBuffer](Chart.md#gethtmlbuffer) is called and the result is the only thing embedded
  into the HTML page.
 
 #### Returns
@@ -242,6 +325,10 @@ optional array of HTML buffers to embed into the HTML page
 `Promise`\<`void`\>
 
 a Promise from the writeFile() invocation
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeHtmlFile`](Chart.md#writehtmlfile)
 
 ***
 
@@ -273,7 +360,11 @@ a Promise from the writeFile() invocation.
 
 #### Deprecated
 
-Use [setChartData](#setchartdata) and [writeJpegFile](#writejpegfile).
+Use [setChartData](Chart.md#setchartdata) and [writeJpegFile](Chart.md#writejpegfile).
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeJpeg`](Chart.md#writejpeg)
 
 ***
 
@@ -296,6 +387,10 @@ name of the file to create/overwrite
 `Promise`\<`void`\>
 
 a Promise from the writeFile() invocation
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeJpegFile`](Chart.md#writejpegfile)
 
 ***
 
@@ -327,7 +422,11 @@ a Promise from the writeFile() invocation.
 
 #### Deprecated
 
-Use [setChartData](#setchartdata) and [writePngFile](#writepngfile).
+Use [setChartData](Chart.md#setchartdata) and [writePngFile](Chart.md#writepngfile).
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writePng`](Chart.md#writepng)
 
 ***
 
@@ -350,6 +449,10 @@ name of the file to create/overwrite
 `Promise`\<`void`\>
 
 a Promise from the writeFile() invocation
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writePngFile`](Chart.md#writepngfile)
 
 ***
 
@@ -381,7 +484,11 @@ a Promise from the writeFile() invocation.
 
 #### Deprecated
 
-Use [setChartData](#setchartdata) and [writeSvgFile](#writesvgfile).
+Use [setChartData](Chart.md#setchartdata) and [writeSvgFile](Chart.md#writesvgfile).
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeSvg`](Chart.md#writesvg)
 
 ***
 
@@ -404,3 +511,7 @@ name of the file to create/overwrite
 `Promise`\<`void`\>
 
 a Promise from the writeFile() invocation
+
+#### Inherited from
+
+[`Chart`](Chart.md).[`writeSvgFile`](Chart.md#writesvgfile)
