@@ -28,10 +28,8 @@ const project = new TypeScriptESMProject({
   copyrightPeriod: '2026',
 
   devDeps: ['@ncfour-us/projen-utils', 'typescript@^6', '@jest/globals'],
-  deps: ['@ncfour-us/logging', 'chart.js', 'skia-canvas', 'sharp', 'canvas'],
-  // localPackageArchiveDir: ~/.local-build-packages,                        /* Location for local archive of released artifacts. */
-  // packageName: undefined,                                                 /* The "name" in package.json. */
-  // repoBuildPackageModel: RepoBuildPackageModel.LOCAL_DEV_BUILD_REGISTRY,  /* Type of repository, packaging, and release model to use. */
+  deps: ['@ncfour-us/logging', 'chart.js', 'skia-canvas', 'sharp', 'canvas', '@ncfour-us/stats'],
+
   eslintFlatConfig: true,
   prettierFlatConfig: true,
   precommitConfig: true,
@@ -83,7 +81,7 @@ if (pnpmWorkspace) {
   pnpmWorkspace.addOverride('allowBuilds.skia-canvas', true);
   //   pnpmWorkspace.addOverride('allowBuilds.unrs-resolver', true);
   //   pnpmWorkspace.addOverride('trustPolicyExclude', ['semver']);
-  //   pnpmWorkspace.addOverride('minimumReleaseAgeExclude', ['@ncfour-us/projen-utils']);
+  pnpmWorkspace.addOverride('minimumReleaseAgeExclude', ['@ncfour-us/stats']);
 }
 // project.tryRemoveFile('pnpm-workspace.yaml');
 

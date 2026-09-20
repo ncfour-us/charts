@@ -70,6 +70,7 @@
   },
   "dependencies": {
     "@ncfour-us/logging": "^0.1.0",
+    "@ncfour-us/stats": "^0.0.3",
     "canvas": "^3.2.3",
     "chart.js": "^4.5.1",
     "sharp": "^0.35.4",

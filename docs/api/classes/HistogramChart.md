@@ -214,6 +214,29 @@ the vector(s) of Y values corresponding to the X values
 
 ***
 
+### setChartDataUsingSampleSet()
+
+> **setChartDataUsingSampleSet**(`sampleSet`): `void`
+
+Specify the data points for an Histogram chart.
+
+Using this method allows direct usage of a SampleSet
+created or built using the @ncfour-us/stats package.
+
+#### Parameters
+
+##### sampleSet
+
+`SampleSet`
+
+the set of values containing a probability distribution.
+
+#### Returns
+
+`void`
+
+***
+
 ### setChartDataWithAnnotations()
 
 > **setChartDataWithAnnotations**(`xValues`, `yValues`, `mean?`, `stddev?`): `void`

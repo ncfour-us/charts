@@ -1,5 +1,6 @@
 // Copyright (c) 2026 Tim Hahn
 
+import { SampleSet, SampleBucket } from '@ncfour-us/stats';
 import { Chart, ChartOptions, ChartXData, ChartYData } from './chart.js';
 
 /**
@@ -251,5 +252,32 @@ export class HistogramChart extends Chart {
     stddev?: number,
   ): void {
     this.chartProperties = this.setChartProperties(xValues, yValues, mean, stddev);
+  }
+
+  /**
+   * Specify the data points for an Histogram chart.
+   *
+   * Using this method allows direct usage of a SampleSet
+   * created or built using the @ncfour-us/stats package.
+   *
+   * @param sampleSet the set of values containing a probability distribution.
+   */
+  public setChartDataUsingSampleSet(sampleSet: SampleSet): void {
+    const distribution: SampleBucket[] = sampleSet.getDistribution();
+    const xValues = distribution.map((bucket) => bucket.midPoint);
+    const yValues: ChartYData = {
+      values: distribution.map((bucket) => bucket.count),
+      label: 'count',
+    };
+
+    if (sampleSet.isNumeric()) {
+      const mean = sampleSet.getMean() as number;
+      const stddev = sampleSet.getStddev();
+
+      this.chartProperties = this.setChartProperties(xValues, yValues, mean, stddev);
+    } else {
+      // TODO: figure out how to handle the mean/stddev when nonNUmeric data.
+      this.chartProperties = this.setChartProperties(xValues, yValues);
+    }
   }
 }

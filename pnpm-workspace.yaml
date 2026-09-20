@@ -14,4 +14,4 @@ allowBuilds:
 trustPolicyExclude:
   - semver
 minimumReleaseAgeExclude:
-  - "@ncfour-us/projen-utils"
+  - "@ncfour-us/stats"

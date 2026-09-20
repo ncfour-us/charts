@@ -117,6 +117,10 @@
       "type": "runtime"
     },
     {
+      "name": "@ncfour-us/stats",
+      "type": "runtime"
+    },
+    {
       "name": "canvas",
       "type": "runtime"
     },
