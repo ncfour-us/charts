@@ -1,4 +1,11 @@
 
+## [0.0.11](https://github.com/ncfour-us/charts/compare/v0.0.10...v0.0.11) (2026-09-20)
+
+
+### Features
+
+* implement HistogramChart.setChartDataUsingSampleSet() ([9d1d887](https://github.com/ncfour-us/charts/commit/9d1d8870d006244dc2f5ae1a369edb5be78930ea))
+
 ## [0.0.10](https://github.com/ncfour-us/charts/compare/v0.0.9...v0.0.10) (2026-09-17)
 
 
