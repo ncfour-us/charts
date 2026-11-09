@@ -30,7 +30,10 @@ const yVals1 = [{ values: [2, 3, 4, 5] }, { values: [5, 7, 9, 11], label: 'line 
 
 myChart1.setChartData([1, 2, 3, 4], yVals1);
 
-const yVals2 = [{ values: [2, 5, -1, 5] }, { values: [1, 3, 4, 4], label: 'line 2 label' }];
+const yVals2 = [
+  { values: [2, 5, -1, 5], fillColor: 'rgba(255,255,255,1)' },
+  { values: [1, 3, 4, 4], label: 'line 2 label', fillColor: 'rgba(0,0,255,0.5)' },
+];
 
 myChart2.setChartData([1, 2, 3, 4], yVals2);
 

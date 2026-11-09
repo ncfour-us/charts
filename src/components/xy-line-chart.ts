@@ -67,15 +67,18 @@ export class XYLineChart extends Chart {
         colorToUse = yValuesChartYData.color ?? 'rgba(0,0,0,1)';
       }
 
+      let backgroundColorToUse: string | undefined = yValuesChartYData.fillColor ?? undefined;
+
       datasets = [
         {
           data: dataPoints,
           label: yValuesChartYData.label ?? 'line 1',
           showLine: true,
-          backgroundColor: colorToUse,
+          backgroundColor: backgroundColorToUse ?? colorToUse,
           borderColor: colorToUse,
           borderWidth: 3,
           pointRadius: 1,
+          fill: backgroundColorToUse ? true : false,
         },
       ];
       this.logger?.trace(
@@ -83,6 +86,7 @@ export class XYLineChart extends Chart {
       );
     } else {
       const yValuesChartYDataArray: ChartYData[] = yValues as ChartYData[];
+      const maxOrder: number = yValuesChartYDataArray.length - 1;
 
       datasets = yValuesChartYDataArray.map((value, lineNum) => {
         const dataPoints = value.values.map((val, index) => {
@@ -99,6 +103,8 @@ export class XYLineChart extends Chart {
           colorToUse = value.color ?? 'rgba(0,0,0,1)';
         }
 
+        let backgroundColorToUse: string | undefined = value.fillColor ?? undefined;
+
         this.logger?.trace(
           `XYLineChart.setChartProperties: ${lineNum}th yValues.length: ${value.values.length}`,
         );
@@ -106,10 +112,12 @@ export class XYLineChart extends Chart {
           data: dataPoints,
           label: value.label ?? `line ${lineNum + 1}`,
           showLine: true,
-          backgroundColor: colorToUse,
+          backgroundColor: backgroundColorToUse ?? colorToUse,
           borderColor: colorToUse,
           borderWidth: 3,
           pointRadius: 1,
+          fill: backgroundColorToUse ? true : false,
+          order: maxOrder - lineNum,
         };
       });
     }
@@ -139,6 +147,7 @@ export class XYLineChart extends Chart {
               display: true,
               text: this.xAxisTitle,
             },
+            type: 'linear',
           },
           y: {
             title: {
