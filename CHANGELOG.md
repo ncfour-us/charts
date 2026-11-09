@@ -1,4 +1,11 @@
 
+## [0.0.14](https://github.com/ncfour-us/charts/compare/v0.0.13...v0.0.14) (2026-11-09)
+
+
+### Features
+
+* support fill for XY charts, and order line drawing in order of array ([9e05c99](https://github.com/ncfour-us/charts/commit/9e05c99b4dff979b9a60f68123905149aa58cfcc))
+
 ## [0.0.13](https://github.com/ncfour-us/charts/compare/v0.0.12...v0.0.13) (2026-11-09)
 
 ## [0.0.12](https://github.com/ncfour-us/charts/compare/v0.0.11...v0.0.12) (2026-11-09)
