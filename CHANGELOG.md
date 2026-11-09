@@ -1,4 +1,11 @@
 
+## [0.0.12](https://github.com/ncfour-us/charts/compare/v0.0.11...v0.0.12) (2026-11-09)
+
+
+### Bug Fixes
+
+* enable multiple HTML buffers containing separate charts on the same HTML page ([9c9a4af](https://github.com/ncfour-us/charts/commit/9c9a4af377a71b38fb5beccbabc92290a9ed9b31))
+
 ## [0.0.11](https://github.com/ncfour-us/charts/compare/v0.0.10...v0.0.11) (2026-09-20)
 
 
