@@ -8,10 +8,10 @@ exports[`BarChart tests Simple Bar chart HTML, numeric X, Y values 1`] = `
       <script>
         // 1. Get the drawing context from the canvas element
         // const ctx2 = document.getElementById('myScatterChart123').getContext('2d');
-        const ctx2 = document.currentScript.parentElement.getContext('2d');
+        const ctx2123 = document.currentScript.parentElement.getContext('2d');
     
         // 2. Set chart properties
-        const chartProperties = {
+        const chartProperties123 = {
   "type": "bar",
   "data": {
     "labels": [
@@ -82,7 +82,7 @@ exports[`BarChart tests Simple Bar chart HTML, numeric X, Y values 1`] = `
   }
 }
         // 3. Render the chart
-        const myChart = new Chart(ctx2, chartProperties);
+        const myChart123 = new Chart(ctx2123, chartProperties123);
         </script>
       </canvas>
     </div>
@@ -107,10 +107,10 @@ exports[`HistogramChart tests Simple Histogram chart HTML, numeric X, Y values 1
       <script>
         // 1. Get the drawing context from the canvas element
         // const ctx2 = document.getElementById('myScatterChart123').getContext('2d');
-        const ctx2 = document.currentScript.parentElement.getContext('2d');
+        const ctx2123 = document.currentScript.parentElement.getContext('2d');
     
         // 2. Set chart properties
-        const chartProperties = {
+        const chartProperties123 = {
   "data": {
     "labels": [
       1,
@@ -178,7 +178,7 @@ exports[`HistogramChart tests Simple Histogram chart HTML, numeric X, Y values 1
   }
 }
         // 3. Render the chart
-        const myChart = new Chart(ctx2, chartProperties);
+        const myChart123 = new Chart(ctx2123, chartProperties123);
         </script>
       </canvas>
     </div>
@@ -199,10 +199,10 @@ exports[`PieChart tests Pie Chart, two sets of values, HTML 1`] = `
       <script>
         // 1. Get the drawing context from the canvas element
         // const ctx2 = document.getElementById('myScatterChart123').getContext('2d');
-        const ctx2 = document.currentScript.parentElement.getContext('2d');
+        const ctx2123 = document.currentScript.parentElement.getContext('2d');
     
         // 2. Set chart properties
-        const chartProperties = {
+        const chartProperties123 = {
   "type": "doughnut",
   "data": {
     "labels": [
@@ -312,7 +312,7 @@ exports[`PieChart tests Pie Chart, two sets of values, HTML 1`] = `
   }
 }
         // 3. Render the chart
-        const myChart = new Chart(ctx2, chartProperties);
+        const myChart123 = new Chart(ctx2123, chartProperties123);
         </script>
       </canvas>
     </div>
@@ -331,10 +331,10 @@ exports[`XYLineChart tests XY Line chart, double set of y values - HTML 1`] = `
       <script>
         // 1. Get the drawing context from the canvas element
         // const ctx2 = document.getElementById('myScatterChart123').getContext('2d');
-        const ctx2 = document.currentScript.parentElement.getContext('2d');
+        const ctx2123 = document.currentScript.parentElement.getContext('2d');
     
         // 2. Set chart properties
-        const chartProperties = {
+        const chartProperties123 = {
   "type": "scatter",
   "data": {
     "datasets": [
@@ -423,7 +423,7 @@ exports[`XYLineChart tests XY Line chart, double set of y values - HTML 1`] = `
   }
 }
         // 3. Render the chart
-        const myChart = new Chart(ctx2, chartProperties);
+        const myChart123 = new Chart(ctx2123, chartProperties123);
         </script>
       </canvas>
     </div>

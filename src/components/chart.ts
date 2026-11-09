@@ -400,16 +400,16 @@ export abstract class Chart {
       <script>
         // 1. Get the drawing context from the canvas element
         // const ctx2 = document.getElementById('myScatterChart${randomSuffix}').getContext('2d');
-        const ctx2 = document.currentScript.parentElement.getContext('2d');
+        const ctx2${randomSuffix} = document.currentScript.parentElement.getContext('2d');
     `;
 
     htmlBuffer += `
         // 2. Set chart properties
-        const chartProperties = ${JSON.stringify(this.chartProperties, null, 2)}`;
+        const chartProperties${randomSuffix} = ${JSON.stringify(this.chartProperties, null, 2)}`;
 
     htmlBuffer += `
         // 3. Render the chart
-        const myChart = new Chart(ctx2, chartProperties);
+        const myChart${randomSuffix} = new Chart(ctx2${randomSuffix}, chartProperties${randomSuffix});
         </script>
       </canvas>
     </div>
